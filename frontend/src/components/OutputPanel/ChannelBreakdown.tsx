@@ -9,7 +9,7 @@ interface ChannelBreakdownProps {
 }
 
 const StarRating = ({ rating }: { rating: number }) => (
-  <div className="flex gap-0.5">
+  <div className="flex gap-0.5 justify-end">
     {[1, 2, 3, 4, 5].map((star) => (
       <svg
         key={star}
