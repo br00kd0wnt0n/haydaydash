@@ -114,19 +114,43 @@ export function ProjectionChart({ data, timing }: ProjectionChartProps) {
               name="Projected"
             />
 
-            {/* June marker */}
+            {/* Campaign tentpole markers */}
             {timing === 'june_birthday' && (
-              <ReferenceLine
-                x="Jun"
-                stroke="#B8433E"
-                strokeDasharray="3 3"
-                label={{
-                  value: 'Campaign Launch',
-                  position: 'top',
-                  fill: '#B8433E',
-                  fontSize: 11,
-                }}
-              />
+              <>
+                <ReferenceLine
+                  x="Jun"
+                  stroke="#B8433E"
+                  strokeDasharray="3 3"
+                  label={{
+                    value: 'Birthday Tentpole',
+                    position: 'top',
+                    fill: '#B8433E',
+                    fontSize: 10,
+                  }}
+                />
+                <ReferenceLine
+                  x="Oct"
+                  stroke="#E8A83A"
+                  strokeDasharray="3 3"
+                  label={{
+                    value: 'Halloween',
+                    position: 'top',
+                    fill: '#E8A83A',
+                    fontSize: 10,
+                  }}
+                />
+                <ReferenceLine
+                  x="Dec"
+                  stroke="#5B8C3E"
+                  strokeDasharray="3 3"
+                  label={{
+                    value: 'Holiday',
+                    position: 'top',
+                    fill: '#5B8C3E',
+                    fontSize: 10,
+                  }}
+                />
+              </>
             )}
           </ComposedChart>
         </ResponsiveContainer>
@@ -135,17 +159,22 @@ export function ProjectionChart({ data, timing }: ProjectionChartProps) {
       {/* Key callouts */}
       {timing === 'june_birthday' && spikeAboveBaseline > 0 && (
         <div className="mt-4 flex gap-4">
-          <div className="flex-1 bg-hay-gold/10 rounded-lg p-3">
-            <p className="text-xs text-hay-brown-light">June Spike</p>
-            <p className="text-lg font-bold text-hay-gold font-display">
+          <div className="flex-1 bg-hay-red/10 rounded-lg p-3">
+            <p className="text-xs text-hay-brown-light">Birthday Tentpole</p>
+            <p className="text-lg font-bold text-hay-red font-display">
               +{formatValue(spikeAboveBaseline)}
             </p>
-            <p className="text-xs text-hay-brown-light">above baseline</p>
+            <p className="text-xs text-hay-brown-light">June peak above baseline</p>
+          </div>
+          <div className="flex-1 bg-hay-gold/10 rounded-lg p-3">
+            <p className="text-xs text-hay-brown-light">Always-On Activity</p>
+            <p className="text-lg font-bold text-hay-gold font-display">12 Months</p>
+            <p className="text-xs text-hay-brown-light">continuous engagement</p>
           </div>
           <div className="flex-1 bg-hay-green/10 rounded-lg p-3">
-            <p className="text-xs text-hay-brown-light">Sustained Lift</p>
-            <p className="text-lg font-bold text-hay-green font-display">Through Q3</p>
-            <p className="text-xs text-hay-brown-light">elevated performance</p>
+            <p className="text-xs text-hay-brown-light">Seasonal Beats</p>
+            <p className="text-lg font-bold text-hay-green font-display">Oct + Dec</p>
+            <p className="text-xs text-hay-brown-light">Halloween & Holiday lifts</p>
           </div>
         </div>
       )}
