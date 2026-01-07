@@ -2,6 +2,7 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { DashboardState, AIAssessment } from '../types';
 
 const DEBOUNCE_MS = 2000;
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 export function useAIAssessment(state: DashboardState) {
   const [assessment, setAssessment] = useState<AIAssessment | null>(null);
@@ -15,7 +16,7 @@ export function useAIAssessment(state: DashboardState) {
     setError(null);
 
     try {
-      const response = await fetch('/api/ai/assessment', {
+      const response = await fetch(`${API_BASE}/ai/assessment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

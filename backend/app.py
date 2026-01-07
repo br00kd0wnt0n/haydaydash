@@ -1,26 +1,30 @@
 import os
+import sys
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from contextlib import asynccontextmanager
-from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
+# Add current directory to path for imports
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from database import init_db
-from routes import ai, presets
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # dotenv is optional
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Initialize database on startup."""
     try:
+        from database import init_db
         init_db()
         print("Database initialized successfully")
     except Exception as e:
-        print(f"Database initialization failed: {e}")
+        print(f"Database initialization skipped: {e}")
     yield
 
 
@@ -45,15 +49,22 @@ if railway_domain:
     origins.append(railway_domain)
     origins.append(railway_domain.replace("https://", "http://"))
 
+# Add frontend URL if set (for split services)
+frontend_url = os.getenv("FRONTEND_URL")
+if frontend_url:
+    origins.append(frontend_url)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
+    allow_origin_regex=r"https://.*\.railway\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # Include routers
+from routes import ai, presets
 app.include_router(ai.router)
 app.include_router(presets.router)
 
