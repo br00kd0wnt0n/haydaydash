@@ -86,7 +86,7 @@ function App() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <img
-                src="/hayday-logo.png"
+                src="/hayday-logo.svg"
                 alt="Hay Day"
                 className="h-12 w-auto"
               />
