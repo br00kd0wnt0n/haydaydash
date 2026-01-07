@@ -34,7 +34,7 @@ export function ProjectionChart({ data, timing }: ProjectionChartProps) {
   return (
     <Card
       title="Campaign Projection"
-      subtitle={timing === 'june_birthday' ? 'May - December 2026' : 'Steady state monthly performance'}
+      subtitle={timing === 'june_birthday' ? 'January - December 2026' : 'Steady state monthly performance'}
     >
       <div className="h-72">
         <ResponsiveContainer width="100%" height="100%">

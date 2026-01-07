@@ -83,7 +83,7 @@ export function calculateChannelResults(state: DashboardState): ChannelResult[] 
 }
 
 export function calculateMonthlyProjections(state: DashboardState): ProjectionMonth[] {
-  const months = ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const baseline = supercellData.monthlyInstalls;
   const strategyAssumptions = strategies[state.strategy].assumptions;
 
@@ -96,7 +96,7 @@ export function calculateMonthlyProjections(state: DashboardState): ProjectionMo
 
     if (state.timing === 'june_birthday') {
       if (month === 'Jun') {
-        // Peak spike month
+        // Peak spike month - Birthday campaign
         const spike = strategyAssumptions.campaignSpike;
         projected = Math.round(baseline * spike);
         optimistic = Math.round(baseline * (spike * 1.2));
@@ -120,6 +120,21 @@ export function calculateMonthlyProjections(state: DashboardState): ProjectionMo
         projected = Math.round(baseline * 1.1);
         optimistic = Math.round(baseline * 1.15);
         conservative = Math.round(baseline * 1.05);
+      } else if (month === 'Oct') {
+        // Halloween mini-bump
+        projected = Math.round(baseline * 1.15);
+        optimistic = Math.round(baseline * 1.2);
+        conservative = Math.round(baseline * 1.1);
+      } else if (month === 'Dec') {
+        // Holiday season bump
+        projected = Math.round(baseline * 1.2);
+        optimistic = Math.round(baseline * 1.3);
+        conservative = Math.round(baseline * 1.1);
+      } else {
+        // Normal months
+        projected = baseline;
+        optimistic = Math.round(baseline * 1.05);
+        conservative = Math.round(baseline * 0.95);
       }
     } else {
       // Steady state - consistent across months

@@ -8,7 +8,7 @@ import { UnderTheHood } from './components/UnderTheHood';
 import { useCalculations, useScenarioComparison } from './hooks/useCalculations';
 import { useAIAssessment } from './hooks/useAIAssessment';
 import { parseShareUrl, generateShareUrl } from './services/api';
-import { GitCompare, Link, Download } from 'lucide-react';
+import { GitCompare, Link, Wifi } from 'lucide-react';
 
 function App() {
   // Initialize state from URL or defaults
@@ -85,12 +85,14 @@ function App() {
         <div className="max-w-screen-2xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-hay-gold rounded-xl flex items-center justify-center text-2xl">
-                🌾
-              </div>
+              <img
+                src="/hayday-logo.png"
+                alt="Hay Day"
+                className="h-12 w-auto"
+              />
               <div>
                 <h1 className="text-xl font-bold text-hay-brown font-display">
-                  Hay Day: Player Value & Growth Dashboard
+                  Player Value & Growth Dashboard
                 </h1>
                 <p className="text-sm text-hay-brown-light">
                   Campaign Strategy Dashboard
@@ -98,6 +100,12 @@ function App() {
               </div>
             </div>
             <div className="flex items-center gap-3">
+              {/* Ralph Connected Pill */}
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-hay-green/10 border border-hay-green/30 rounded-full">
+                <Wifi className="w-3.5 h-3.5 text-hay-green" />
+                <span className="text-xs font-medium text-hay-green">Ralph</span>
+                <span className="w-1.5 h-1.5 bg-hay-green rounded-full animate-pulse"></span>
+              </div>
               <button
                 onClick={() => setShowComparison(true)}
                 className="flex items-center gap-2 px-4 py-2 bg-hay-cream rounded-lg text-hay-brown font-medium text-sm hover:bg-hay-cream-dark transition-colors"
