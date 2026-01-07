@@ -2,7 +2,7 @@ import React from 'react';
 import { ScenarioResult, StrategyType } from '../../types';
 import { ScenarioCard } from './ScenarioCard';
 import { strategies } from '../../data/defaults';
-import { formatCurrency } from '../../utils/calculations';
+import { useFormatting } from '../../hooks/useFormatting';
 import { X } from 'lucide-react';
 
 interface ScenarioComparisonProps {
@@ -31,6 +31,7 @@ export function ScenarioComparison({
   onApplyStrategy,
   onClose,
 }: ScenarioComparisonProps) {
+  const { formatCurrency } = useFormatting();
   // Find scenario results
   const welcomeBack = scenarios.find(s => s.strategy === 'welcome_back')!;
   const balanced = scenarios.find(s => s.strategy === 'balanced')!;

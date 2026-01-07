@@ -1,13 +1,31 @@
 import React from 'react';
 import { SocialGrowthForecast } from '../../types';
 import { Card } from '../shared/Card';
-import { formatNumber } from '../../utils/calculations';
+import { useFormatting } from '../../hooks/useFormatting';
 
 interface SocialForecastProps {
   data: SocialGrowthForecast[];
 }
 
-const platformIcons: Record<string, string> = {
+// Platform logo components - using official brand icons
+const PlatformIcon = ({ platform }: { platform: string }) => {
+  const iconPath = `/icons/${platform}.svg`;
+  return (
+    <img
+      src={iconPath}
+      alt={platform}
+      className="w-6 h-6"
+      onError={(e) => {
+        // Fallback to text if icon not found
+        e.currentTarget.style.display = 'none';
+        e.currentTarget.nextElementSibling?.classList.remove('hidden');
+      }}
+    />
+  );
+};
+
+// Fallback emojis in case icons aren't loaded
+const platformEmojis: Record<string, string> = {
   instagram: '📸',
   tiktok: '🎵',
   youtube: '🎬',
@@ -26,6 +44,7 @@ const platformNames: Record<string, string> = {
 };
 
 export function SocialForecast({ data }: SocialForecastProps) {
+  const { formatNumber } = useFormatting();
   return (
     <Card title="Social Growth Forecast" subtitle="Projected follower growth by platform">
       <div className="space-y-3">
@@ -36,7 +55,10 @@ export function SocialForecast({ data }: SocialForecastProps) {
               key={platform.platform}
               className="flex items-center gap-3 p-3 bg-hay-cream rounded-lg"
             >
-              <span className="text-xl">{platformIcons[platform.platform] || '📱'}</span>
+              <div className="w-6 h-6 flex items-center justify-center">
+                <PlatformIcon platform={platform.platform} />
+                <span className="hidden text-xl">{platformEmojis[platform.platform] || '📱'}</span>
+              </div>
               <div className="flex-1">
                 <p className="text-sm font-medium text-hay-brown">
                   {platformNames[platform.platform] || platform.platform}

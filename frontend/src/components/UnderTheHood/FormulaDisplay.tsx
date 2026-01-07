@@ -1,6 +1,8 @@
 import React from 'react';
+import { useFormatting } from '../../hooks/useFormatting';
 
 export function FormulaDisplay() {
+  const { symbol, formatCurrency } = useFormatting();
   return (
     <div className="space-y-6">
       <h4 className="text-sm font-semibold text-hay-brown">Forecast Formulas</h4>
@@ -48,7 +50,7 @@ Where Blended Retention =
 {`Campaign ROI = Player Value Generated / Campaign Investment
 
 Example:
-  ROI = €4,649,400 / €1,500,000 = 3.1x`}
+  ROI = ${formatCurrency(4649400)} / ${formatCurrency(1500000)} = 3.1x`}
           </code>
         </div>
 
@@ -88,7 +90,7 @@ Effective CPI = Total Spend / Total Installs`}
         </h5>
         <div className="grid grid-cols-2 gap-2 text-xs">
           <VariableItem name="Baseline Monthly" value="1.5M installs" />
-          <VariableItem name="ARPDAU" value="€0.35" />
+          <VariableItem name="ARPDAU" value={`${symbol}0.35`} />
           <VariableItem name="Average Days" value="180 days" />
           <VariableItem name="Dormant Pool" value="~51M (15% of 341M)" />
           <VariableItem name="Spike Multiplier" value="2.0x - 3.0x (by strategy)" />

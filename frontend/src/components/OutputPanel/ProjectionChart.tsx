@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   LineChart,
   Line,
@@ -17,9 +17,14 @@ import { Card } from '../shared/Card';
 interface ProjectionChartProps {
   data: ProjectionMonth[];
   timing: 'june_birthday' | 'steady_state';
+  retentionRate?: number;
 }
 
-export function ProjectionChart({ data, timing }: ProjectionChartProps) {
+type ChartView = 'installs' | 'cumulative';
+
+export function ProjectionChart({ data, timing, retentionRate = 0.18 }: ProjectionChartProps) {
+  const [chartView, setChartView] = useState<ChartView>('installs');
+
   const formatValue = (value: number) => {
     if (value >= 1_000_000) {
       return `${(value / 1_000_000).toFixed(1)}M`;
@@ -27,18 +32,75 @@ export function ProjectionChart({ data, timing }: ProjectionChartProps) {
     return `${(value / 1_000).toFixed(0)}K`;
   };
 
+  // Calculate cumulative retained players
+  const cumulativeData = useMemo(() => {
+    let cumulativeBaseline = 0;
+    let cumulativeProjected = 0;
+    let cumulativeOptimistic = 0;
+    let cumulativeConservative = 0;
+
+    return data.map((month) => {
+      // Add new installs, apply retention decay to existing
+      cumulativeBaseline = (cumulativeBaseline * 0.95) + (month.baseline * retentionRate);
+      cumulativeProjected = (cumulativeProjected * 0.95) + (month.projected * retentionRate);
+      cumulativeOptimistic = (cumulativeOptimistic * 0.95) + (month.optimistic * retentionRate);
+      cumulativeConservative = (cumulativeConservative * 0.95) + (month.conservative * retentionRate);
+
+      return {
+        month: month.month,
+        baseline: Math.round(cumulativeBaseline),
+        projected: Math.round(cumulativeProjected),
+        optimistic: Math.round(cumulativeOptimistic),
+        conservative: Math.round(cumulativeConservative),
+      };
+    });
+  }, [data, retentionRate]);
+
+  const chartData = chartView === 'installs' ? data : cumulativeData;
+
   const juneIndex = data.findIndex(d => d.month === 'Jun');
   const juneData = data[juneIndex];
   const spikeAboveBaseline = juneData ? juneData.projected - juneData.baseline : 0;
+
+  // Calculate cumulative difference at year end
+  const yearEndCumulative = cumulativeData[cumulativeData.length - 1];
+  const cumulativeLift = yearEndCumulative ? yearEndCumulative.projected - yearEndCumulative.baseline : 0;
 
   return (
     <Card
       title="Campaign Projection"
       subtitle={timing === 'june_birthday' ? 'January - December 2026' : 'Steady state monthly performance'}
     >
+      {/* View Toggle */}
+      <div className="flex items-center justify-end gap-2 mb-4">
+        <span className="text-xs text-hay-brown-light">View:</span>
+        <div className="flex bg-hay-cream rounded-lg p-1">
+          <button
+            onClick={() => setChartView('installs')}
+            className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
+              chartView === 'installs'
+                ? 'bg-white text-hay-brown shadow-sm'
+                : 'text-hay-brown-light hover:text-hay-brown'
+            }`}
+          >
+            Monthly Installs
+          </button>
+          <button
+            onClick={() => setChartView('cumulative')}
+            className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
+              chartView === 'cumulative'
+                ? 'bg-white text-hay-brown shadow-sm'
+                : 'text-hay-brown-light hover:text-hay-brown'
+            }`}
+          >
+            Cumulative Retained
+          </button>
+        </div>
+      </div>
+
       <div className="h-72">
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+          <ComposedChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
             <defs>
               <linearGradient id="baselineGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#D4D4D4" stopOpacity={0.3} />

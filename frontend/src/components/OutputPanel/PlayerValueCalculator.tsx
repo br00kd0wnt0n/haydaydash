@@ -2,13 +2,14 @@ import React from 'react';
 import { PlayerValueCalculation } from '../../types';
 import { Card } from '../shared/Card';
 import { Tooltip } from '../shared/Tooltip';
-import { formatCurrency, formatNumber, formatPercent } from '../../utils/calculations';
+import { useFormatting } from '../../hooks/useFormatting';
 
 interface PlayerValueCalculatorProps {
   data: PlayerValueCalculation;
 }
 
 export function PlayerValueCalculator({ data }: PlayerValueCalculatorProps) {
+  const { formatCurrency, formatNumber, formatPercent } = useFormatting();
   const newPlayerPercent = (data.newPlayers / data.incrementalInstalls) * 100;
   const reactivatedPercent = (data.reactivatedPlayers / data.incrementalInstalls) * 100;
 
@@ -69,7 +70,7 @@ export function PlayerValueCalculator({ data }: PlayerValueCalculatorProps) {
           <div className="mt-2 grid grid-cols-2 gap-2 text-sm">
             <div className="flex justify-between">
               <span className="text-hay-brown-light">ARPDAU</span>
-              <span className="text-hay-brown">{formatCurrency(data.arpdau, '€')}</span>
+              <span className="text-hay-brown">{formatCurrency(data.arpdau)}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-hay-brown-light">Avg Days</span>

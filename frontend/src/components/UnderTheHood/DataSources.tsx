@@ -1,8 +1,9 @@
 import React from 'react';
 import { supercellData, socialChannelData, defaultBenchmarks, defaultRalphAssumptions } from '../../data/defaults';
-import { formatNumber, formatCurrency } from '../../utils/calculations';
+import { useFormatting } from '../../hooks/useFormatting';
 
 export function DataSources() {
+  const { formatNumber, formatCurrency } = useFormatting();
   return (
     <div className="space-y-6">
       {/* Supercell Data */}
@@ -16,7 +17,7 @@ export function DataSources() {
           <DataItem label="Lifetime Downloads" value={formatNumber(supercellData.lifetimeDownloads)} />
           <DataItem label="Monthly Installs" value={`${formatNumber(supercellData.monthlyInstalls)} (baseline)`} />
           <DataItem label="Monthly Revenue" value={formatCurrency(supercellData.monthlyRevenue)} />
-          <DataItem label="ARPDAU" value={formatCurrency(supercellData.arpdau, '€')} />
+          <DataItem label="ARPDAU" value={formatCurrency(supercellData.arpdau)} />
           <DataItem label="US App Store Ranking" value={`#${supercellData.appStoreRanking} Games/Family`} />
         </div>
       </div>
@@ -50,7 +51,7 @@ export function DataSources() {
           <DataItem label="D30 Retention (Reactivated)" value={`${(defaultBenchmarks.d30RetentionReactivated * 100).toFixed(0)}%`} />
           <DataItem label="D60 Decay" value={`${(defaultBenchmarks.d60RetentionDecay * 100).toFixed(0)}% of D30`} />
           <DataItem label="D90 Decay" value={`${(defaultBenchmarks.d90RetentionDecay * 100).toFixed(0)}% of D60`} />
-          <DataItem label="Paid Social CPI" value={formatCurrency(defaultBenchmarks.paidSocialCPI, '€')} />
+          <DataItem label="Paid Social CPI" value={formatCurrency(defaultBenchmarks.paidSocialCPI)} />
           <DataItem label="Organic Multiplier" value={`${defaultBenchmarks.organicMultiplier}x`} />
         </div>
       </div>

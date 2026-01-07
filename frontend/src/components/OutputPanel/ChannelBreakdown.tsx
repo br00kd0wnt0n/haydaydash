@@ -2,7 +2,7 @@ import React from 'react';
 import { ChannelResult } from '../../types';
 import { Card } from '../shared/Card';
 import { channelInfo } from '../../data/defaults';
-import { formatCurrency, formatNumber } from '../../utils/calculations';
+import { useFormatting } from '../../hooks/useFormatting';
 
 interface ChannelBreakdownProps {
   data: ChannelResult[];
@@ -24,6 +24,7 @@ const StarRating = ({ rating }: { rating: number }) => (
 );
 
 export function ChannelBreakdown({ data }: ChannelBreakdownProps) {
+  const { formatCurrency, formatNumber } = useFormatting();
   // Sort by spend
   const sortedData = [...data].sort((a, b) => b.spend - a.spend);
   const totalSpend = data.reduce((sum, ch) => sum + ch.spend, 0);
@@ -59,7 +60,7 @@ export function ChannelBreakdown({ data }: ChannelBreakdownProps) {
                     {formatNumber(channel.installs)}
                   </td>
                   <td className="text-right py-3 text-hay-brown">
-                    {channel.cpi > 0 ? formatCurrency(channel.cpi, '€') : '-'}
+                    {channel.cpi > 0 ? formatCurrency(channel.cpi) : '-'}
                   </td>
                   <td className="text-right py-3">
                     <StarRating rating={channel.qualityScore} />
@@ -74,7 +75,7 @@ export function ChannelBreakdown({ data }: ChannelBreakdownProps) {
               <td className="text-right py-3 text-hay-brown">{formatCurrency(totalSpend)}</td>
               <td className="text-right py-3 text-hay-brown">{formatNumber(totalInstalls)}</td>
               <td className="text-right py-3 text-hay-brown">
-                {formatCurrency(totalSpend / totalInstalls, '€')}
+                {formatCurrency(totalSpend / totalInstalls)}
               </td>
               <td></td>
             </tr>

@@ -11,7 +11,7 @@ import {
 } from 'recharts';
 import { ScenarioResult, StrategyType } from '../../types';
 import { strategies } from '../../data/defaults';
-import { formatCurrency, formatNumber } from '../../utils/calculations';
+import { useFormatting } from '../../hooks/useFormatting';
 
 interface ScenarioCardProps {
   scenario: ScenarioResult;
@@ -35,6 +35,7 @@ const StarRating = ({ rating }: { rating: number }) => (
 );
 
 export function ScenarioCard({ scenario, color, onApply }: ScenarioCardProps) {
+  const { formatCurrency, formatNumber } = useFormatting();
   const strategy = strategies[scenario.strategy];
 
   const formatValue = (value: number) => {
@@ -109,7 +110,7 @@ export function ScenarioCard({ scenario, color, onApply }: ScenarioCardProps) {
           </div>
           <div>
             <p className="text-hay-brown-light text-xs">Avg CPI</p>
-            <p className="font-bold text-hay-brown">{formatCurrency(scenario.avgCPI, '€')}</p>
+            <p className="font-bold text-hay-brown">{formatCurrency(scenario.avgCPI)}</p>
           </div>
           <div className="col-span-2">
             <p className="text-hay-brown-light text-xs mb-1">Quality Score</p>

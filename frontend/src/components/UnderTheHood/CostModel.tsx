@@ -3,7 +3,7 @@ import { IndustryBenchmarks } from '../../types';
 import { benchmarkRanges } from '../../data/defaults';
 import { benchmarkTooltips } from '../../data/tooltips';
 import { Tooltip } from '../shared/Tooltip';
-import { formatCurrency } from '../../utils/calculations';
+import { useFormatting } from '../../hooks/useFormatting';
 
 interface CostModelProps {
   benchmarks: IndustryBenchmarks;
@@ -11,6 +11,7 @@ interface CostModelProps {
 }
 
 export function CostModel({ benchmarks, onChange }: CostModelProps) {
+  const { formatCurrency, symbol } = useFormatting();
   const handleChange = (key: keyof IndustryBenchmarks, value: number) => {
     onChange({ ...benchmarks, [key]: value });
   };
@@ -28,7 +29,7 @@ export function CostModel({ benchmarks, onChange }: CostModelProps) {
               <Tooltip content={benchmarkTooltips.paidSocialCPI} />
             </div>
             <span className="text-sm font-semibold text-hay-gold">
-              {formatCurrency(benchmarks.paidSocialCPI, '€')}
+              {formatCurrency(benchmarks.paidSocialCPI)}
             </span>
           </div>
           <input
@@ -41,8 +42,8 @@ export function CostModel({ benchmarks, onChange }: CostModelProps) {
             className="w-full h-2 bg-white rounded-lg appearance-none cursor-pointer"
           />
           <div className="flex justify-between text-xs text-hay-brown-light mt-1">
-            <span>{formatCurrency(benchmarkRanges.paidSocialCPI.min, '€')}</span>
-            <span>{formatCurrency(benchmarkRanges.paidSocialCPI.max, '€')}</span>
+            <span>{formatCurrency(benchmarkRanges.paidSocialCPI.min)}</span>
+            <span>{formatCurrency(benchmarkRanges.paidSocialCPI.max)}</span>
           </div>
         </div>
 
@@ -79,13 +80,13 @@ export function CostModel({ benchmarks, onChange }: CostModelProps) {
           Channel CPI Reference
         </h5>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <CostItem label="Paid Social" value="€2.50" />
-          <CostItem label="Influencer" value="€4.00" />
-          <CostItem label="eCRM" value="€0.50" />
-          <CostItem label="PR" value="€3.00" />
-          <CostItem label="Store" value="€1.00" />
-          <CostItem label="GiveBack" value="€2.00" />
-          <CostItem label="Organic" value="€0.00" />
+          <CostItem label="Paid Social" value={formatCurrency(2.50)} />
+          <CostItem label="Influencer" value={formatCurrency(4.00)} />
+          <CostItem label="eCRM" value={formatCurrency(0.50)} />
+          <CostItem label="PR" value={formatCurrency(3.00)} />
+          <CostItem label="Store" value={formatCurrency(1.00)} />
+          <CostItem label="GiveBack" value={formatCurrency(2.00)} />
+          <CostItem label="Organic" value={formatCurrency(0.00)} />
         </div>
       </div>
     </div>

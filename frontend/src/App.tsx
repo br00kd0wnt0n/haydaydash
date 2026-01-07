@@ -8,6 +8,7 @@ import { UnderTheHood } from './components/UnderTheHood';
 import { useCalculations, useScenarioComparison } from './hooks/useCalculations';
 import { useAIAssessment } from './hooks/useAIAssessment';
 import { parseShareUrl, generateShareUrl } from './services/api';
+import { useCurrency } from './contexts/CurrencyContext';
 import { GitCompare, Link, Wifi } from 'lucide-react';
 
 function App() {
@@ -22,6 +23,9 @@ function App() {
 
   const [showComparison, setShowComparison] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
+
+  // Currency
+  const { currency, setCurrency } = useCurrency();
 
   // Calculations
   const { channelResults, monthlyProjections, playerValue, socialGrowth } = useCalculations(state);
@@ -86,7 +90,7 @@ function App() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <img
-                src="/hayday-logo.svg"
+                src="/hayday-logo.png"
                 alt="Hay Day"
                 className="h-12 w-auto"
               />
@@ -100,6 +104,29 @@ function App() {
               </div>
             </div>
             <div className="flex items-center gap-3">
+              {/* Currency Toggle */}
+              <div className="flex bg-hay-cream rounded-lg p-1">
+                <button
+                  onClick={() => setCurrency('EUR')}
+                  className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
+                    currency === 'EUR'
+                      ? 'bg-white text-hay-brown shadow-sm'
+                      : 'text-hay-brown-light hover:text-hay-brown'
+                  }`}
+                >
+                  EUR
+                </button>
+                <button
+                  onClick={() => setCurrency('USD')}
+                  className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
+                    currency === 'USD'
+                      ? 'bg-white text-hay-brown shadow-sm'
+                      : 'text-hay-brown-light hover:text-hay-brown'
+                  }`}
+                >
+                  USD
+                </button>
+              </div>
               {/* Ralph Connected Pill */}
               <div className="flex items-center gap-2 px-3 py-1.5 bg-hay-green/10 border border-hay-green/30 rounded-full">
                 <Wifi className="w-3.5 h-3.5 text-hay-green" />
