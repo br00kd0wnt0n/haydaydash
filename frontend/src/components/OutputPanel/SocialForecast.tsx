@@ -7,16 +7,27 @@ interface SocialForecastProps {
   data: SocialGrowthForecast[];
 }
 
+// Platform icon file mapping
+const platformIconFiles: Record<string, string> = {
+  instagram: 'insta_logo.png',
+  tiktok: 'tiktok_logo.png',
+  youtube: 'youtube_logo.png',
+  twitter: 'x_logo.png',
+  reddit: 'reddit_logo.png',
+  twitch: 'twitch_logo.png',
+};
+
 // Platform logo components - using official brand icons
 const PlatformIcon = ({ platform }: { platform: string }) => {
-  const iconPath = `/icons/${platform}.svg`;
+  const iconFile = platformIconFiles[platform] || `${platform}.png`;
+  const iconPath = `/icons/${iconFile}`;
   return (
     <img
       src={iconPath}
       alt={platform}
-      className="w-6 h-6"
+      className="w-6 h-6 object-contain"
       onError={(e) => {
-        // Fallback to text if icon not found
+        // Fallback to emoji if icon not found
         e.currentTarget.style.display = 'none';
         e.currentTarget.nextElementSibling?.classList.remove('hidden');
       }}
