@@ -1,6 +1,7 @@
 import React from 'react';
 import { supercellData, socialChannelData, defaultBenchmarks, defaultRalphAssumptions } from '../../data/defaults';
 import { useFormatting } from '../../hooks/useFormatting';
+import { Tooltip } from '../shared/Tooltip';
 
 export function DataSources() {
   const { formatNumber, formatCurrency } = useFormatting();
@@ -17,7 +18,23 @@ export function DataSources() {
           <DataItem label="Lifetime Downloads" value={formatNumber(supercellData.lifetimeDownloads)} />
           <DataItem label="Monthly Installs" value={`${formatNumber(supercellData.monthlyInstalls)} (baseline)`} />
           <DataItem label="Monthly Revenue" value={formatCurrency(supercellData.monthlyRevenue)} />
-          <DataItem label="ARPDAU" value={formatCurrency(supercellData.arpdau)} />
+          <DataItem
+            label="DAU"
+            value={formatNumber(supercellData.dau)}
+            tooltip="Daily Active Users - unique players who open the game each day"
+            estimated
+          />
+          <DataItem
+            label="MAU"
+            value={formatNumber(supercellData.mau)}
+            tooltip="Monthly Active Users - unique players active at least once per month"
+            estimated
+          />
+          <DataItem
+            label="ARPDAU"
+            value={formatCurrency(supercellData.arpdau)}
+            tooltip="Average Revenue Per Daily Active User"
+          />
           <DataItem label="US App Store Ranking" value={`#${supercellData.appStoreRanking} Games/Family`} />
         </div>
       </div>
@@ -73,10 +90,14 @@ export function DataSources() {
   );
 }
 
-function DataItem({ label, value }: { label: string; value: string }) {
+function DataItem({ label, value, tooltip, estimated }: { label: string; value: string; tooltip?: string; estimated?: boolean }) {
   return (
     <div className="bg-hay-cream rounded-lg p-3">
-      <p className="text-xs text-hay-brown-light">{label}</p>
+      <div className="flex items-center gap-1">
+        <p className="text-xs text-hay-brown-light">{label}</p>
+        {tooltip && <Tooltip content={tooltip} />}
+        {estimated && <span className="text-xs text-hay-gold">*</span>}
+      </div>
       <p className="text-sm font-semibold text-hay-brown">{value}</p>
     </div>
   );

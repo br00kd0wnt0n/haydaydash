@@ -118,6 +118,8 @@ export const supercellData: SupercellData = {
   lifetimeDownloads: 341_000_000,
   monthlyInstalls: 1_500_000, // Mid-range of 1-2M
   monthlyRevenue: 10_000_000,
+  dau: 1_500_000, // Estimated based on revenue/ARPDAU
+  mau: 10_000_000, // Estimated ~6-7x DAU ratio for casual games
   arpdau: 0.35, // Mid-range of $0.30-0.40
   appStoreRanking: 15,
 };

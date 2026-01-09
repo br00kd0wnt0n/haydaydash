@@ -72,6 +72,8 @@ export interface SupercellData {
   lifetimeDownloads: number;
   monthlyInstalls: number;
   monthlyRevenue: number;
+  dau: number;
+  mau: number;
   arpdau: number;
   appStoreRanking: number;
 }
