@@ -9,7 +9,7 @@ import { useCalculations, useScenarioComparison } from './hooks/useCalculations'
 import { useAIAssessment } from './hooks/useAIAssessment';
 import { parseShareUrl, generateShareUrl } from './services/api';
 import { useCurrency } from './contexts/CurrencyContext';
-import { Link, Wifi } from 'lucide-react';
+import { Link } from 'lucide-react';
 
 function App() {
   // Initialize state from URL or defaults
@@ -130,8 +130,8 @@ function App() {
               </div>
               {/* Ralph Connected Pill */}
               <div className="flex items-center gap-2 px-3 py-1.5 bg-[#e75787]/10 border border-[#e75787]/30 rounded-full">
-                <Wifi className="w-3.5 h-3.5 text-[#e75787]" />
-                <span className="text-xs font-medium text-[#e75787]">Ralph</span>
+                <img src="/ralph-logo.png" alt="Ralph" className="h-4 w-auto" />
+                <span className="text-xs font-medium text-[#e75787]">Connected</span>
                 <span className="w-1.5 h-1.5 bg-[#e75787] rounded-full animate-pulse"></span>
               </div>
               <button
