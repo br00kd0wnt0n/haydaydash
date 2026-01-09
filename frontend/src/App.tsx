@@ -9,7 +9,7 @@ import { useCalculations, useScenarioComparison } from './hooks/useCalculations'
 import { useAIAssessment } from './hooks/useAIAssessment';
 import { parseShareUrl, generateShareUrl } from './services/api';
 import { useCurrency } from './contexts/CurrencyContext';
-import { GitCompare, Link, Wifi } from 'lucide-react';
+import { Link, Wifi } from 'lucide-react';
 
 function App() {
   // Initialize state from URL or defaults
@@ -135,13 +135,6 @@ function App() {
                 <span className="w-1.5 h-1.5 bg-[#e75787] rounded-full animate-pulse"></span>
               </div>
               <button
-                onClick={() => setShowComparison(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-hay-cream rounded-lg text-hay-brown font-medium text-sm hover:bg-hay-cream-dark transition-colors"
-              >
-                <GitCompare className="w-4 h-4" />
-                Compare All Scenarios
-              </button>
-              <button
                 onClick={handleCopyLink}
                 className="flex items-center gap-2 px-4 py-2 bg-hay-gold text-white rounded-lg font-medium text-sm hover:bg-hay-gold/90 transition-colors"
               >
@@ -181,6 +174,7 @@ function App() {
               aiError={aiError}
               onAIRefresh={aiRefresh}
               onApplySuggestions={handleApplySuggestions}
+              onCompareClick={() => setShowComparison(true)}
             />
           </div>
         </div>

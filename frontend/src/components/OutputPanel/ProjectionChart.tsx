@@ -13,16 +13,18 @@ import {
 } from 'recharts';
 import { ProjectionMonth } from '../../types';
 import { Card } from '../shared/Card';
+import { GitCompare } from 'lucide-react';
 
 interface ProjectionChartProps {
   data: ProjectionMonth[];
   timing: 'june_birthday' | 'steady_state';
   retentionRate?: number;
+  onCompareClick?: () => void;
 }
 
 type ChartView = 'installs' | 'cumulative';
 
-export function ProjectionChart({ data, timing, retentionRate = 0.18 }: ProjectionChartProps) {
+export function ProjectionChart({ data, timing, retentionRate = 0.18, onCompareClick }: ProjectionChartProps) {
   const [chartView, setChartView] = useState<ChartView>('installs');
 
   const formatValue = (value: number) => {
@@ -71,30 +73,45 @@ export function ProjectionChart({ data, timing, retentionRate = 0.18 }: Projecti
       title="Campaign Projection"
       subtitle={timing === 'june_birthday' ? 'January - December 2026' : 'Steady state monthly performance'}
     >
-      {/* View Toggle */}
-      <div className="flex items-center justify-end gap-2 mb-4">
-        <span className="text-xs text-hay-brown-light">View:</span>
-        <div className="flex bg-hay-cream rounded-lg p-1">
+      {/* Controls Row */}
+      <div className="flex items-center justify-between gap-2 mb-4">
+        {/* Compare Button */}
+        {onCompareClick && (
           <button
-            onClick={() => setChartView('installs')}
-            className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
-              chartView === 'installs'
-                ? 'bg-white text-hay-brown shadow-sm'
-                : 'text-hay-brown-light hover:text-hay-brown'
-            }`}
+            onClick={onCompareClick}
+            className="flex items-center gap-2 px-3 py-1.5 bg-hay-cream rounded-lg text-hay-brown font-medium text-xs hover:bg-hay-cream-dark transition-colors"
           >
-            Monthly Installs
+            <GitCompare className="w-3.5 h-3.5" />
+            Compare All Scenarios
           </button>
-          <button
-            onClick={() => setChartView('cumulative')}
-            className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
-              chartView === 'cumulative'
-                ? 'bg-white text-hay-brown shadow-sm'
-                : 'text-hay-brown-light hover:text-hay-brown'
-            }`}
-          >
-            Cumulative Retained
-          </button>
+        )}
+        {!onCompareClick && <div />}
+
+        {/* View Toggle */}
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-hay-brown-light">View:</span>
+          <div className="flex bg-hay-cream rounded-lg p-1">
+            <button
+              onClick={() => setChartView('installs')}
+              className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
+                chartView === 'installs'
+                  ? 'bg-white text-hay-brown shadow-sm'
+                  : 'text-hay-brown-light hover:text-hay-brown'
+              }`}
+            >
+              Monthly Installs
+            </button>
+            <button
+              onClick={() => setChartView('cumulative')}
+              className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${
+                chartView === 'cumulative'
+                  ? 'bg-white text-hay-brown shadow-sm'
+                  : 'text-hay-brown-light hover:text-hay-brown'
+              }`}
+            >
+              Cumulative Retained
+            </button>
+          </div>
         </div>
       </div>
 
