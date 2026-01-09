@@ -129,10 +129,10 @@ function App() {
                 </button>
               </div>
               {/* Ralph Connected Pill */}
-              <div className="flex items-center gap-2 px-3 py-1.5 bg-hay-green/10 border border-hay-green/30 rounded-full">
-                <Wifi className="w-3.5 h-3.5 text-hay-green" />
-                <span className="text-xs font-medium text-hay-green">Ralph</span>
-                <span className="w-1.5 h-1.5 bg-hay-green rounded-full animate-pulse"></span>
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-[#e75787]/10 border border-[#e75787]/30 rounded-full">
+                <Wifi className="w-3.5 h-3.5 text-[#e75787]" />
+                <span className="text-xs font-medium text-[#e75787]">Ralph</span>
+                <span className="w-1.5 h-1.5 bg-[#e75787] rounded-full animate-pulse"></span>
               </div>
               <button
                 onClick={() => setShowComparison(true)}
