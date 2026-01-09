@@ -213,14 +213,33 @@ export function calculateSocialGrowth(state: DashboardState): SocialGrowthForeca
     twitch: 0.06,
   };
 
-  // Apply campaign multiplier
+  // Strategy multipliers - different strategies have different social impact
+  const strategyMultipliers: Record<StrategyType, number> = {
+    welcome_back: 0.9,  // Focused on reactivation, less social buzz
+    balanced: 1.0,      // Baseline
+    new_neighbors: 1.2, // Heavy social focus for new player acquisition
+  };
+
+  // Calculate budget impact from social-relevant channels
+  // Influencer and Organic channels drive social growth
+  const socialChannelSpend = (state.channels.influencer + state.channels.organic) / 100;
+  const budgetFactor = 1 + (socialChannelSpend * 0.5); // Up to 1.5x if 100% in social channels
+
+  // Budget scale factor - higher budgets = more reach
+  const budgetScale = Math.sqrt(state.budget / 1_000_000); // Diminishing returns on budget
+
+  // Apply campaign timing multiplier
   const campaignMultiplier = state.timing === 'june_birthday'
     ? state.ralphAssumptions.socialAmplificationFactor
     : 1.0;
 
+  // Combined multiplier
+  const strategyFactor = strategyMultipliers[state.strategy];
+  const totalMultiplier = campaignMultiplier * strategyFactor * budgetFactor * budgetScale;
+
   return Object.entries(socialChannelData).map(([platform, current]) => {
     const baseGrowth = growthRates[platform] || 0.05;
-    const growthPercent = baseGrowth * campaignMultiplier;
+    const growthPercent = baseGrowth * totalMultiplier;
     const projected = Math.round(current * (1 + growthPercent));
 
     return {

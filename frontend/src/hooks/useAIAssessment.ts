@@ -1,15 +1,17 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { DashboardState, AIAssessment } from '../types';
 
-const DEBOUNCE_MS = 2000;
 const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 export function useAIAssessment(state: DashboardState) {
   const [assessment, setAssessment] = useState<AIAssessment | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
-  const lastStateRef = useRef<string>('');
+  const hasInitialFetch = useRef(false);
+  const stateRef = useRef(state);
+
+  // Keep state ref updated for manual refresh
+  stateRef.current = state;
 
   const fetchAssessment = useCallback(async (currentState: DashboardState) => {
     setIsLoading(true);
@@ -39,36 +41,18 @@ export function useAIAssessment(state: DashboardState) {
     }
   }, []);
 
+  // Only fetch on initial page load
   useEffect(() => {
-    const stateString = JSON.stringify(state);
-
-    // Skip if state hasn't changed
-    if (stateString === lastStateRef.current) {
-      return;
-    }
-
-    lastStateRef.current = stateString;
-
-    // Clear existing debounce
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current);
-    }
-
-    // Debounce the API call
-    debounceRef.current = setTimeout(() => {
+    if (!hasInitialFetch.current) {
+      hasInitialFetch.current = true;
       fetchAssessment(state);
-    }, DEBOUNCE_MS);
+    }
+  }, [fetchAssessment, state]);
 
-    return () => {
-      if (debounceRef.current) {
-        clearTimeout(debounceRef.current);
-      }
-    };
-  }, [state, fetchAssessment]);
-
+  // Manual refresh uses current state
   const refresh = useCallback(() => {
-    fetchAssessment(state);
-  }, [state, fetchAssessment]);
+    fetchAssessment(stateRef.current);
+  }, [fetchAssessment]);
 
   return {
     assessment,

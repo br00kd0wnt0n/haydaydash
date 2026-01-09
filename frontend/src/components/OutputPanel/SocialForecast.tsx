@@ -54,10 +54,20 @@ const platformNames: Record<string, string> = {
   twitch: 'Twitch',
 };
 
+const SOCIAL_TOOLTIP = `Projections are affected by:
+• Strategy selection (New Neighbors = highest social impact)
+• Budget allocated to Influencer & Organic channels
+• Total campaign budget
+• Campaign timing (Birthday tentpole applies 1.4x multiplier)`;
+
 export function SocialForecast({ data }: SocialForecastProps) {
   const { formatNumber } = useFormatting();
   return (
-    <Card title="Social Growth Forecast" subtitle="Projected follower growth by platform">
+    <Card
+      title="Social Growth Forecast"
+      subtitle="Projected follower growth by platform"
+      tooltip={SOCIAL_TOOLTIP}
+    >
       <div className="space-y-3">
         {data.map((platform) => {
           const growth = platform.projected - platform.current;
