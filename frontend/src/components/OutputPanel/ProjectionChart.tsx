@@ -68,24 +68,22 @@ export function ProjectionChart({ data, timing, retentionRate = 0.18, onCompareC
   const yearEndCumulative = cumulativeData[cumulativeData.length - 1];
   const cumulativeLift = yearEndCumulative ? yearEndCumulative.projected - yearEndCumulative.baseline : 0;
 
+  const compareButton = onCompareClick ? (
+    <button
+      onClick={onCompareClick}
+      className="flex items-center gap-2 px-3 py-1.5 bg-hay-cream rounded-lg text-hay-brown font-medium text-xs hover:bg-hay-cream-dark transition-colors"
+    >
+      <GitCompare className="w-3.5 h-3.5" />
+      Compare All Scenarios
+    </button>
+  ) : undefined;
+
   return (
     <Card
       title="Campaign Projection"
       subtitle={timing === 'june_birthday' ? 'January - December 2026' : 'Steady state monthly performance'}
+      headerAction={compareButton}
     >
-      {/* Compare Button - Top Right */}
-      {onCompareClick && (
-        <div className="flex justify-end mb-3">
-          <button
-            onClick={onCompareClick}
-            className="flex items-center gap-2 px-3 py-1.5 bg-hay-cream rounded-lg text-hay-brown font-medium text-xs hover:bg-hay-cream-dark transition-colors"
-          >
-            <GitCompare className="w-3.5 h-3.5" />
-            Compare All Scenarios
-          </button>
-        </div>
-      )}
-
       {/* View Toggle */}
       <div className="flex items-center justify-end gap-2 mb-4">
         <span className="text-xs text-hay-brown-light">View:</span>
