@@ -137,7 +137,7 @@ export const socialChannelData: SocialChannelData = {
 // Default dashboard state
 export const defaultDashboardState: DashboardState = {
   strategy: 'balanced',
-  budget: 1_500_000,
+  budget: 1_000_000,
   channels: defaultChannels,
   regions: defaultRegions,
   timing: 'june_birthday',
