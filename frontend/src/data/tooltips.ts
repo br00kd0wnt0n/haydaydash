@@ -77,4 +77,18 @@ export const scenarioContent = {
       'Slower payback - takes longer to see player value materialize',
     ],
   },
+  digital_first: {
+    strengths: [
+      'Sustained engagement - year-round content vs. one-off spikes',
+      'Authentic advocacy - creator partnerships feel organic',
+      'Scalable reach - content lives on and compounds over time',
+      'Measurable attribution - digital touchpoints are trackable',
+    ],
+    tradeoffs: [
+      'Creator dependency - quality relies on partner execution',
+      'Slower ramp-up - takes time to build content momentum',
+      'Less "big moment" - no single tentpole for PR amplification',
+      'Content fatigue risk - requires fresh creative throughout',
+    ],
+  },
 };

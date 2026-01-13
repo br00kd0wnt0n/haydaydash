@@ -1,5 +1,5 @@
 // Strategy types
-export type StrategyType = 'welcome_back' | 'balanced' | 'new_neighbors';
+export type StrategyType = 'welcome_back' | 'balanced' | 'new_neighbors' | 'digital_first';
 
 export interface Strategy {
   id: StrategyType;
@@ -145,4 +145,29 @@ export interface AIAssessment {
   summary: string;
   recommendations: string[];
   suggestedChanges: Partial<DashboardState>;
+}
+
+// Sensitivity Analysis
+export interface SensitivityRange {
+  parameter: string;
+  label: string;
+  lowValue: number;
+  baseValue: number;
+  highValue: number;
+  lowROI: number;
+  baseROI: number;
+  highROI: number;
+  unit: string;
+}
+
+// Data Pending Status
+export type DataConfidenceLevel = 'confirmed' | 'estimated' | 'pending';
+
+export interface DataPointStatus {
+  key: string;
+  label: string;
+  value: string | number;
+  confidence: DataConfidenceLevel;
+  source: string;
+  tooltip?: string;
 }

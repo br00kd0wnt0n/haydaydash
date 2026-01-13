@@ -47,6 +47,7 @@ export function useScenarioComparison(
       calculateScenario('welcome_back', budget, benchmarks, ralphAssumptions),
       calculateScenario('balanced', budget, benchmarks, ralphAssumptions),
       calculateScenario('new_neighbors', budget, benchmarks, ralphAssumptions),
+      calculateScenario('digital_first', budget, benchmarks, ralphAssumptions),
     ];
   }, [budget, benchmarks, ralphAssumptions]);
 

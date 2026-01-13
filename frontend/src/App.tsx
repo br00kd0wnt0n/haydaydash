@@ -182,6 +182,7 @@ function App() {
 
       {/* Under the Hood */}
       <UnderTheHood
+        state={state}
         benchmarks={state.benchmarks}
         onBenchmarksChange={handleBenchmarksChange}
       />

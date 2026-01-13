@@ -74,6 +74,27 @@ export const strategies: Record<string, Strategy> = {
       campaignSpike: 3.0,
     },
   },
+  digital_first: {
+    id: 'digital_first',
+    name: 'Digital-First Content',
+    emoji: '📱',
+    description: 'Year-long creator partnerships and content series over one-off events',
+    channelDefaults: {
+      paidSocial: 20,
+      influencer: 35,
+      eCRM: 15,
+      organic: 20,
+      pr: 5,
+      store: 3,
+      giveBack: 2,
+    },
+    assumptions: {
+      reactivationRatio: 0.45,
+      d30Retention: 0.22,
+      organicMultiplier: 1.6,
+      campaignSpike: 1.8, // Lower spike but sustained over time
+    },
+  },
 };
 
 // Default channel allocation (Balanced)
@@ -229,6 +250,20 @@ export const scenarioContent: Record<string, { strengths: string[]; tradeoffs: s
       'Higher CPI - cold acquisition costs more than reactivation',
       'Quality variance - not all new players are good fits',
       'Slower payback - takes longer to see player value materialize',
+    ],
+  },
+  digital_first: {
+    strengths: [
+      'Sustained engagement - year-round content vs. one-off spikes',
+      'Authentic advocacy - creator partnerships feel organic',
+      'Scalable reach - content lives on and compounds over time',
+      'Measurable attribution - digital touchpoints are trackable',
+    ],
+    tradeoffs: [
+      'Creator dependency - quality relies on partner execution',
+      'Slower ramp-up - takes time to build content momentum',
+      'Less "big moment" - no single tentpole for PR amplification',
+      'Content fatigue risk - requires fresh creative throughout',
     ],
   },
 };

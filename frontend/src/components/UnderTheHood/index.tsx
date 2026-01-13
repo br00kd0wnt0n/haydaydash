@@ -5,25 +5,30 @@ import { DataSources } from './DataSources';
 import { RetentionModel } from './RetentionModel';
 import { CostModel } from './CostModel';
 import { FormulaDisplay } from './FormulaDisplay';
-import { ChevronDown, ChevronUp, Database, TrendingDown, DollarSign, Code } from 'lucide-react';
+import { SensitivityAnalysis } from './SensitivityAnalysis';
+import { DataPendingStatus } from './DataPendingStatus';
+import { ChevronDown, ChevronUp, Database, TrendingDown, DollarSign, Code, BarChart3, AlertCircle } from 'lucide-react';
 
 interface UnderTheHoodProps {
+  state: DashboardState;
   benchmarks: IndustryBenchmarks;
   onBenchmarksChange: (benchmarks: IndustryBenchmarks) => void;
 }
 
-type TabType = 'sources' | 'retention' | 'cost' | 'formula';
+type TabType = 'pending' | 'sources' | 'sensitivity' | 'retention' | 'cost' | 'formula';
 
 const tabs: { id: TabType; label: string; icon: React.ReactNode }[] = [
+  { id: 'pending', label: 'Data Status', icon: <AlertCircle className="w-4 h-4" /> },
   { id: 'sources', label: 'Data Sources', icon: <Database className="w-4 h-4" /> },
+  { id: 'sensitivity', label: 'Sensitivity', icon: <BarChart3 className="w-4 h-4" /> },
   { id: 'retention', label: 'Retention Model', icon: <TrendingDown className="w-4 h-4" /> },
   { id: 'cost', label: 'Cost Model', icon: <DollarSign className="w-4 h-4" /> },
   { id: 'formula', label: 'Forecast Formula', icon: <Code className="w-4 h-4" /> },
 ];
 
-export function UnderTheHood({ benchmarks, onBenchmarksChange }: UnderTheHoodProps) {
+export function UnderTheHood({ state, benchmarks, onBenchmarksChange }: UnderTheHoodProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [activeTab, setActiveTab] = useState<TabType>('sources');
+  const [activeTab, setActiveTab] = useState<TabType>('pending');
 
   const handleReset = () => {
     onBenchmarksChange(defaultBenchmarks);
@@ -75,7 +80,9 @@ export function UnderTheHood({ benchmarks, onBenchmarksChange }: UnderTheHoodPro
 
           {/* Tab Content */}
           <div className="px-6 py-6">
+            {activeTab === 'pending' && <DataPendingStatus />}
             {activeTab === 'sources' && <DataSources />}
+            {activeTab === 'sensitivity' && <SensitivityAnalysis state={state} />}
             {activeTab === 'retention' && (
               <RetentionModel
                 benchmarks={benchmarks}
