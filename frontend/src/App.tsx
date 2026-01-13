@@ -96,11 +96,11 @@ function App() {
               />
               <div>
                 <h1 className="text-xl font-bold text-hay-brown font-display flex items-center gap-2">
-                  Player Value & Growth Dashboard
+                  HayStack
                   <span className="px-2 py-0.5 text-xs font-semibold bg-hay-gold text-white rounded-full uppercase tracking-wide">Beta</span>
                 </h1>
                 <p className="text-sm text-hay-brown-light">
-                  Campaign Strategy Dashboard
+                  Player Value & Growth Dashboard
                 </p>
               </div>
             </div>
