@@ -12,7 +12,7 @@ const dataPointStatuses: DataPointStatus[] = [
     label: 'DAU',
     value: '1.5M',
     confidence: 'pending',
-    source: 'Requested from Steph',
+    source: 'Requested from Stef',
     tooltip: 'Daily Active Users - awaiting actual data from client',
   },
   {
@@ -20,7 +20,7 @@ const dataPointStatuses: DataPointStatus[] = [
     label: 'MAU',
     value: '10M',
     confidence: 'pending',
-    source: 'Requested from Steph',
+    source: 'Requested from Stef',
     tooltip: 'Monthly Active Users - awaiting actual data from client',
   },
   {
@@ -28,7 +28,7 @@ const dataPointStatuses: DataPointStatus[] = [
     label: 'ARPDAU',
     value: '€0.35',
     confidence: 'pending',
-    source: 'Requested from Steph',
+    source: 'Requested from Stef',
     tooltip: 'Average Revenue Per DAU - critical for player value calculation',
   },
   {
@@ -36,7 +36,7 @@ const dataPointStatuses: DataPointStatus[] = [
     label: 'D7 Retention',
     value: 'Unknown',
     confidence: 'pending',
-    source: 'Requested from Steph',
+    source: 'Requested from Stef',
     tooltip: 'Client mentioned "sharp D7 drop" - need actual figures',
   },
   {
@@ -44,7 +44,7 @@ const dataPointStatuses: DataPointStatus[] = [
     label: 'D30/60/90 Retention Curves',
     value: '15%/9%/4.5%',
     confidence: 'pending',
-    source: 'Requested from Steph',
+    source: 'Requested from Stef',
     tooltip: 'Full retention curves for new and reactivated players',
   },
   {
@@ -52,7 +52,7 @@ const dataPointStatuses: DataPointStatus[] = [
     label: 'Reactivation Success Rate',
     value: '3%',
     confidence: 'pending',
-    source: 'Requested from Steph',
+    source: 'Requested from Stef',
     tooltip: 'What % of dormant players return when targeted',
   },
   {
@@ -60,7 +60,7 @@ const dataPointStatuses: DataPointStatus[] = [
     label: 'Reachable Dormant Pool',
     value: '~51M (15%)',
     confidence: 'pending',
-    source: 'Requested from Steph',
+    source: 'Requested from Stef',
     tooltip: 'How many lapsed players are actually reachable',
   },
   {
@@ -68,7 +68,7 @@ const dataPointStatuses: DataPointStatus[] = [
     label: 'Historical Campaign Spikes',
     value: '2.0-3.0x',
     confidence: 'pending',
-    source: 'Requested from Steph',
+    source: 'Requested from Stef',
     tooltip: 'Past birthday/holiday tentpole performance',
   },
   {
@@ -76,7 +76,7 @@ const dataPointStatuses: DataPointStatus[] = [
     label: 'Channel CPI Benchmarks',
     value: 'Industry avg',
     confidence: 'pending',
-    source: 'Requested from Steph',
+    source: 'Requested from Stef',
     tooltip: 'Actual paid social / influencer costs for Hay Day',
   },
   {
@@ -84,7 +84,7 @@ const dataPointStatuses: DataPointStatus[] = [
     label: 'Organic Multiplier (Observed)',
     value: '1.3x',
     confidence: 'pending',
-    source: 'Requested from Steph',
+    source: 'Requested from Stef',
     tooltip: 'Actual paid-to-organic lift observed in past campaigns',
   },
   {
@@ -92,7 +92,7 @@ const dataPointStatuses: DataPointStatus[] = [
     label: 'Regional Efficiency',
     value: 'US/DE/RoW split',
     confidence: 'pending',
-    source: 'Requested from Steph',
+    source: 'Requested from Stef',
     tooltip: 'US vs Germany vs RoW performance differences',
   },
   // Already confirmed
@@ -195,7 +195,7 @@ export function DataPendingStatus() {
               {pendingCount} data points awaiting client confirmation
             </p>
             <p className="text-xs text-amber-700 mt-1">
-              Model projections will be refined once Steph responds to your data request.
+              Model projections will be refined once Stef responds to your data request.
               Current estimates use industry benchmarks which may not reflect Hay Day's actual performance.
             </p>
           </div>
@@ -239,22 +239,6 @@ export function DataPendingStatus() {
             </div>
           </div>
         ))}
-      </div>
-
-      {/* Data request reference */}
-      <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-        <p className="text-xs font-medium text-blue-800 mb-2">
-          Your data request to Steph covers:
-        </p>
-        <ul className="text-xs text-blue-700 space-y-1">
-          <li>• DAU & MAU</li>
-          <li>• ARPDAU</li>
-          <li>• Retention Curves (D7/30/60/90)</li>
-          <li>• Reactivation Success Rate & Dormant Pool Size</li>
-          <li>• Historical Campaign Performance</li>
-          <li>• Channel CPI Benchmarks & Organic Multiplier</li>
-          <li>• Regional Performance Data</li>
-        </ul>
       </div>
     </div>
   );
