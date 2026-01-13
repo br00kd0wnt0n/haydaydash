@@ -184,8 +184,7 @@ export function SensitivityAnalysis({ state }: SensitivityAnalysisProps) {
 
       <div className="mt-4 p-3 bg-purple-50 border border-purple-200 rounded-lg">
         <p className="text-xs text-purple-800">
-          <strong>Priority data requests:</strong> Parameters marked "High Impact" should be prioritized
-          in your data request to the client. Actual values for these will significantly refine projections.
+          <strong>Priority data requests:</strong> Parameters marked "High Impact" prioritized in data request to the client. Actual values will significantly refine projections.
         </p>
       </div>
     </div>
