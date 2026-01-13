@@ -195,8 +195,7 @@ export function DataPendingStatus() {
               {pendingCount} data points awaiting client confirmation
             </p>
             <p className="text-xs text-amber-700 mt-1">
-              Model projections will be refined once Stef responds to your data request.
-              Current estimates use industry benchmarks which may not reflect Hay Day's actual performance.
+              Model projections will be refined once Steph responds to data request.
             </p>
           </div>
         </div>
