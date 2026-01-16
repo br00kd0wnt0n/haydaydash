@@ -5,7 +5,8 @@ nixPkgs = ["nodejs_20"]
 cmds = ["npm ci"]
 
 [phases.build]
-cmds = ["npm run build"]
+# Ensure fresh build every deploy
+cmds = ["echo 'Building v2.1.0...' && rm -rf dist && npm run build"]
 
 [start]
 cmd = "npx serve -s dist -l $PORT"
