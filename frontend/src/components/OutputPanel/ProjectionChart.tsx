@@ -139,6 +139,7 @@ export function ProjectionChart({ data, timing, retentionRate = 0.18, onCompareC
             />
             <YAxis
               domain={yAxisDomain}
+              allowDataOverflow={true}
               tickFormatter={formatValue}
               tick={{ fill: '#3D2914', fontSize: 12 }}
               axisLine={{ stroke: '#D4D4D4' }}
