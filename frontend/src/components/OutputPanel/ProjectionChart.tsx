@@ -60,6 +60,13 @@ export function ProjectionChart({ data, timing, retentionRate = 0.18, onCompareC
 
   const chartData = chartView === 'installs' ? data : cumulativeData;
 
+  // Fixed Y-axis domain so comparisons between strategies are visually clear
+  // Installs: 0-6M covers all scenarios (baseline 1.5M, max spike 3x = 4.5M, optimistic ~5.4M)
+  // Cumulative: 0-800K covers retained player accumulation
+  const yAxisDomain: [number, number] = chartView === 'installs'
+    ? [0, 6_000_000]
+    : [0, 800_000];
+
   const juneIndex = data.findIndex(d => d.month === 'Jun');
   const juneData = data[juneIndex];
   const spikeAboveBaseline = juneData ? juneData.projected - juneData.baseline : 0;
@@ -131,6 +138,7 @@ export function ProjectionChart({ data, timing, retentionRate = 0.18, onCompareC
               axisLine={{ stroke: '#D4D4D4' }}
             />
             <YAxis
+              domain={yAxisDomain}
               tickFormatter={formatValue}
               tick={{ fill: '#3D2914', fontSize: 12 }}
               axisLine={{ stroke: '#D4D4D4' }}
