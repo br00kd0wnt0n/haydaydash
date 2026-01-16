@@ -40,9 +40,9 @@ export const scenarioContent = {
   welcome_back: {
     strengths: [
       'Higher player quality - reactivated users already love Hay Day',
+      'Birthday as reunion - emotionally resonant for lapsed players',
       'Lower effective CPA - eCRM costs less than paid acquisition',
-      'Faster time-to-value - no learning curve for returning players',
-      'Community reinforcement - validates loyal player investment',
+      'Awards/recognition - perfect fit for celebrating loyal community',
     ],
     tradeoffs: [
       'Finite pool - can only reactivate players who\'ve churned',
@@ -52,43 +52,28 @@ export const scenarioContent = {
   },
   balanced: {
     strengths: [
-      'Risk mitigation - not over-indexed on any single channel',
-      'Predictable outcomes - blended approach smooths variance',
+      'Birthday appeals to all - celebration welcomes everyone',
+      'Risk mitigation - not over-indexed on any single audience',
       'Full funnel coverage - acquisition + retention + community',
       'Flexibility - can shift resources based on early performance',
     ],
     tradeoffs: [
-      'Jack of all trades - doesn\'t maximize any single KPI',
+      'Creative complexity - messaging must resonate with both audiences',
       'Harder to measure - multiple variables in play',
-      'May underperform specialists - if one channel would have 3x\'d',
+      'May underperform specialists - if one audience would have 3x\'d',
     ],
   },
   new_neighbors: {
     strengths: [
       'Largest reach - maximizes brand awareness and discovery',
-      'Viral potential - new players share their discovery',
+      'Birthday as "join the party" - compelling hook for new players',
       'Long-term growth - expands the total addressable community',
-      'Platform algorithm favor - new content gets distribution',
+      'Strong holiday seasonality - Oct-Dec is peak acquisition period',
     ],
     tradeoffs: [
-      'Lower retention - new players churn at higher rates',
+      'Lower retention - new players churn at higher rates (11.1% D30)',
       'Higher CPI - cold acquisition costs more than reactivation',
-      'Quality variance - not all new players are good fits',
-      'Slower payback - takes longer to see player value materialize',
-    ],
-  },
-  digital_first: {
-    strengths: [
-      'Sustained engagement - year-round content vs. one-off spikes',
-      'Authentic advocacy - creator partnerships feel organic',
-      'Scalable reach - content lives on and compounds over time',
-      'Measurable attribution - digital touchpoints are trackable',
-    ],
-    tradeoffs: [
-      'Creator dependency - quality relies on partner execution',
-      'Slower ramp-up - takes time to build content momentum',
-      'Less "big moment" - no single tentpole for PR amplification',
-      'Content fatigue risk - requires fresh creative throughout',
+      'Birthday relevance - 14-year history less meaningful to newcomers',
     ],
   },
 };

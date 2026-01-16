@@ -215,7 +215,6 @@ export function calculateSocialGrowth(state: DashboardState): SocialGrowthForeca
     welcome_back: 0.9,  // Focused on reactivation, less social buzz
     balanced: 1.0,      // Baseline
     new_neighbors: 1.2, // Heavy social focus for new player acquisition
-    digital_first: 1.4, // Creator-led content drives highest social engagement
   };
 
   // Calculate budget impact from social-relevant channels

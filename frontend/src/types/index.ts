@@ -1,5 +1,5 @@
 // Strategy types
-export type StrategyType = 'welcome_back' | 'balanced' | 'new_neighbors' | 'digital_first';
+export type StrategyType = 'welcome_back' | 'balanced' | 'new_neighbors';
 
 export interface Strategy {
   id: StrategyType;

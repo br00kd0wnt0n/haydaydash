@@ -22,7 +22,6 @@ const scenarioColors: Record<StrategyType, string> = {
   welcome_back: '#E8A83A', // Warm amber/gold
   balanced: '#6B9B4D', // Soft green
   new_neighbors: '#4A9B8C', // Fresh teal
-  digital_first: '#7C5BBF', // Creator purple
 };
 
 export function ScenarioComparison({
@@ -37,7 +36,6 @@ export function ScenarioComparison({
   const welcomeBack = scenarios.find(s => s.strategy === 'welcome_back')!;
   const balanced = scenarios.find(s => s.strategy === 'balanced')!;
   const newNeighbors = scenarios.find(s => s.strategy === 'new_neighbors')!;
-  const digitalFirst = scenarios.find(s => s.strategy === 'digital_first')!;
 
   // Generate comparison summary
   const highestROIName = strategies[comparison.highestROI].name;
@@ -68,7 +66,7 @@ export function ScenarioComparison({
           </div>
 
           {/* Scenario Cards */}
-          <div className="bg-hay-cream p-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+          <div className="bg-hay-cream p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
             <ScenarioCard
               scenario={welcomeBack}
               color={scenarioColors.welcome_back}
@@ -83,11 +81,6 @@ export function ScenarioComparison({
               scenario={newNeighbors}
               color={scenarioColors.new_neighbors}
               onApply={() => onApplyStrategy('new_neighbors')}
-            />
-            <ScenarioCard
-              scenario={digitalFirst}
-              color={scenarioColors.digital_first}
-              onApply={() => onApplyStrategy('digital_first')}
             />
           </div>
 

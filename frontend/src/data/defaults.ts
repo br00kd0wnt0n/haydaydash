@@ -9,13 +9,13 @@ import {
   DashboardState
 } from '../types';
 
-// Strategy definitions
+// Strategy definitions - all strategies include birthday tentpole + evergreen activity
 export const strategies: Record<string, Strategy> = {
   welcome_back: {
     id: 'welcome_back',
-    name: 'Welcome Back to the Farm',
+    name: 'Welcome Back',
     emoji: '🌾',
-    description: 'Re-engage players who loved Hay Day but drifted away',
+    description: 'Reunion-led: Birthday celebrates returning players, heavy reactivation focus',
     channelDefaults: {
       paidSocial: 25,
       influencer: 15,
@@ -26,7 +26,7 @@ export const strategies: Record<string, Strategy> = {
       giveBack: 3,
     },
     assumptions: {
-      reactivationRatio: 0.70,
+      reactivationRatio: 0.70,     // 70% lapsed / 30% new
       d30Retention: 0.125,         // Confirmed reactivated D30: 12.5%
       organicMultiplier: 6.0,      // Confirmed: 5-12x range, conservative for eCRM focus
       campaignSpike: 2.0,
@@ -34,9 +34,9 @@ export const strategies: Record<string, Strategy> = {
   },
   balanced: {
     id: 'balanced',
-    name: 'Balanced Harvest',
+    name: 'Balanced Growth',
     emoji: '⚖️',
-    description: 'Grow the community while celebrating existing players',
+    description: 'Community-led: Birthday honors all players, balanced acquisition + retention',
     channelDefaults: {
       paidSocial: 35,
       influencer: 15,
@@ -47,7 +47,7 @@ export const strategies: Record<string, Strategy> = {
       giveBack: 5,
     },
     assumptions: {
-      reactivationRatio: 0.50,
+      reactivationRatio: 0.50,     // 50/50 split
       d30Retention: 0.118,         // Blended: (11.1% + 12.5%) / 2
       organicMultiplier: 8.0,      // Confirmed: 5-12x range, midpoint
       campaignSpike: 2.5,
@@ -57,7 +57,7 @@ export const strategies: Record<string, Strategy> = {
     id: 'new_neighbors',
     name: 'New Neighbors',
     emoji: '🌱',
-    description: 'Introduce Hay Day to players who\'d love it but haven\'t found it yet',
+    description: 'Discovery-led: Birthday as "join the party" moment, acquisition focus',
     channelDefaults: {
       paidSocial: 45,
       influencer: 20,
@@ -68,31 +68,10 @@ export const strategies: Record<string, Strategy> = {
       giveBack: 2,
     },
     assumptions: {
-      reactivationRatio: 0.20,
+      reactivationRatio: 0.20,     // 30% lapsed / 70% new
       d30Retention: 0.111,         // Confirmed new D30: 11.1%
       organicMultiplier: 10.0,     // Confirmed: 5-12x range, higher for virality
       campaignSpike: 3.0,
-    },
-  },
-  digital_first: {
-    id: 'digital_first',
-    name: 'Digital-First Content',
-    emoji: '📱',
-    description: 'Year-long creator partnerships and content series over one-off events',
-    channelDefaults: {
-      paidSocial: 20,
-      influencer: 35,
-      eCRM: 15,
-      organic: 20,
-      pr: 5,
-      store: 3,
-      giveBack: 2,
-    },
-    assumptions: {
-      reactivationRatio: 0.45,
-      d30Retention: 0.118,         // Blended retention
-      organicMultiplier: 12.0,     // Confirmed: 5-12x range, highest for creator content
-      campaignSpike: 1.8,
     },
   },
 };
@@ -216,9 +195,9 @@ export const scenarioContent: Record<string, { strengths: string[]; tradeoffs: s
   welcome_back: {
     strengths: [
       'Higher player quality - reactivated users already love Hay Day',
+      'Birthday as reunion - emotionally resonant for lapsed players',
       'Lower effective CPA - eCRM costs less than paid acquisition',
-      'Faster time-to-value - no learning curve for returning players',
-      'Community reinforcement - validates loyal player investment',
+      'Awards/recognition - perfect fit for celebrating loyal community',
     ],
     tradeoffs: [
       'Finite pool - can only reactivate players who\'ve churned',
@@ -228,43 +207,28 @@ export const scenarioContent: Record<string, { strengths: string[]; tradeoffs: s
   },
   balanced: {
     strengths: [
-      'Risk mitigation - not over-indexed on any single channel',
-      'Predictable outcomes - blended approach smooths variance',
+      'Birthday appeals to all - celebration welcomes everyone',
+      'Risk mitigation - not over-indexed on any single audience',
       'Full funnel coverage - acquisition + retention + community',
       'Flexibility - can shift resources based on early performance',
     ],
     tradeoffs: [
-      'Jack of all trades - doesn\'t maximize any single KPI',
+      'Creative complexity - messaging must resonate with both audiences',
       'Harder to measure - multiple variables in play',
-      'May underperform specialists - if one channel would have 3x\'d',
+      'May underperform specialists - if one audience would have 3x\'d',
     ],
   },
   new_neighbors: {
     strengths: [
       'Largest reach - maximizes brand awareness and discovery',
-      'Viral potential - new players share their discovery',
+      'Birthday as "join the party" - compelling hook for new players',
       'Long-term growth - expands the total addressable community',
-      'Platform algorithm favor - new content gets distribution',
+      'Strong holiday seasonality - Oct-Dec is peak acquisition period',
     ],
     tradeoffs: [
-      'Lower retention - new players churn at higher rates',
+      'Lower retention - new players churn at higher rates (11.1% D30)',
       'Higher CPI - cold acquisition costs more than reactivation',
-      'Quality variance - not all new players are good fits',
-      'Slower payback - takes longer to see player value materialize',
-    ],
-  },
-  digital_first: {
-    strengths: [
-      'Sustained engagement - year-round content vs. one-off spikes',
-      'Authentic advocacy - creator partnerships feel organic',
-      'Scalable reach - content lives on and compounds over time',
-      'Measurable attribution - digital touchpoints are trackable',
-    ],
-    tradeoffs: [
-      'Creator dependency - quality relies on partner execution',
-      'Slower ramp-up - takes time to build content momentum',
-      'Less "big moment" - no single tentpole for PR amplification',
-      'Content fatigue risk - requires fresh creative throughout',
+      'Birthday relevance - 14-year history less meaningful to newcomers',
     ],
   },
 };
