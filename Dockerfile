@@ -4,7 +4,9 @@ WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm ci
 COPY frontend/ ./
-RUN npm run build
+# Force fresh build - invalidate cache with timestamp
+ARG CACHEBUST=1
+RUN echo "Build timestamp: $CACHEBUST" && npm run build
 
 # Production stage
 FROM python:3.11-slim
