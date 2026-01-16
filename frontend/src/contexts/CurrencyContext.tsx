@@ -14,7 +14,7 @@ const EUR_TO_USD_RATE = 1.08; // Approximate conversion rate
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
 
 export function CurrencyProvider({ children }: { children: ReactNode }) {
-  const [currency, setCurrency] = useState<Currency>('EUR');
+  const [currency, setCurrency] = useState<Currency>('USD');
 
   const convert = (euroAmount: number): number => {
     if (currency === 'USD') {
