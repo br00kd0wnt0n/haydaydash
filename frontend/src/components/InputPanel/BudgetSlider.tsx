@@ -25,8 +25,8 @@ export function BudgetSlider({ value, onChange }: BudgetSliderProps) {
           value={value}
           onChange={onChange}
           min={500_000}
-          max={2_000_000}
-          step={100_000}
+          max={2_500_000}
+          step={250_000}
           format={formatBudget}
         />
         <p className="text-xs text-hay-brown-light text-center mt-2">
