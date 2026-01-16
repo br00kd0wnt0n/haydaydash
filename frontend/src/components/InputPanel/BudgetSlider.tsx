@@ -1,6 +1,5 @@
 import React from 'react';
 import { SliderInput } from '../shared/SliderInput';
-import { useFormatting } from '../../hooks/useFormatting';
 
 interface BudgetSliderProps {
   value: number;
@@ -8,8 +7,8 @@ interface BudgetSliderProps {
 }
 
 export function BudgetSlider({ value, onChange }: BudgetSliderProps) {
-  const { formatCurrencyCompact } = useFormatting();
-  const formatBudget = (v: number) => formatCurrencyCompact(v);
+  // Budget is always displayed in USD without conversion (it's an input, not calculated)
+  const formatBudget = (v: number) => `$${(v / 1_000_000).toFixed(1)}M`;
 
   return (
     <div className="mb-6">
