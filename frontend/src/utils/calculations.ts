@@ -87,65 +87,60 @@ export function calculateMonthlyProjections(state: DashboardState): ProjectionMo
   const baseline = supercellData.monthlyInstalls;
   const strategyAssumptions = strategies[state.strategy].assumptions;
 
+  // Confirmed seasonality: Holiday (Oct-Dec) is BEST, Summer (Jun-Aug) is WORST
+  const seasonalityMultipliers: Record<string, number> = {
+    Jan: 1.00,   // Post-holiday normalization
+    Feb: 0.95,   // Slow month
+    Mar: 0.95,   // Pre-spring
+    Apr: 0.90,   // Spring - lower engagement
+    May: 0.85,   // Late spring
+    Jun: 0.80,   // Summer starts - WORST (but birthday campaign can spike)
+    Jul: 0.80,   // Summer - WORST
+    Aug: 0.85,   // Late summer - recovering
+    Sep: 0.95,   // Back to school
+    Oct: 1.15,   // Halloween - BEST period starts
+    Nov: 1.20,   // Pre-holiday - BEST
+    Dec: 1.25,   // Holiday season - BEST
+  };
+
   const projections: ProjectionMonth[] = [];
 
-  months.forEach((month, index) => {
-    let projected = baseline;
-    let optimistic = baseline;
-    let conservative = baseline;
+  months.forEach((month) => {
+    const seasonality = seasonalityMultipliers[month];
+    const seasonalBaseline = Math.round(baseline * seasonality);
+
+    let projected = seasonalBaseline;
+    let optimistic = Math.round(seasonalBaseline * 1.1);
+    let conservative = Math.round(seasonalBaseline * 0.9);
 
     if (state.timing === 'june_birthday') {
       if (month === 'Jun') {
-        // Peak spike month - Birthday campaign
+        // Birthday campaign spike overrides poor summer seasonality
         const spike = strategyAssumptions.campaignSpike;
-        projected = Math.round(baseline * spike);
+        projected = Math.round(baseline * spike); // Use full baseline, not seasonal
         optimistic = Math.round(baseline * (spike * 1.2));
         conservative = Math.round(baseline * (spike * 0.8));
       } else if (month === 'Jul') {
-        // Decay month 1
+        // Decay month 1 - still elevated from campaign
         const decay = 0.6;
         const spike = strategyAssumptions.campaignSpike;
-        projected = Math.round(baseline * (1 + (spike - 1) * decay));
+        projected = Math.round(baseline * (1 + (spike - 1) * decay) * 0.9); // Summer penalty
         optimistic = Math.round(baseline * (1 + (spike * 1.2 - 1) * decay));
-        conservative = Math.round(baseline * (1 + (spike * 0.8 - 1) * decay));
+        conservative = Math.round(baseline * (1 + (spike * 0.8 - 1) * decay) * 0.85);
       } else if (month === 'Aug') {
         // Decay month 2
         const decay = 0.3;
         const spike = strategyAssumptions.campaignSpike;
-        projected = Math.round(baseline * (1 + (spike - 1) * decay));
+        projected = Math.round(baseline * (1 + (spike - 1) * decay) * 0.9);
         optimistic = Math.round(baseline * (1 + (spike * 1.2 - 1) * decay));
-        conservative = Math.round(baseline * (1 + (spike * 0.8 - 1) * decay));
-      } else if (month === 'Sep') {
-        // Return to slightly elevated baseline
-        projected = Math.round(baseline * 1.1);
-        optimistic = Math.round(baseline * 1.15);
-        conservative = Math.round(baseline * 1.05);
-      } else if (month === 'Oct') {
-        // Halloween mini-bump
-        projected = Math.round(baseline * 1.15);
-        optimistic = Math.round(baseline * 1.2);
-        conservative = Math.round(baseline * 1.1);
-      } else if (month === 'Dec') {
-        // Holiday season bump
-        projected = Math.round(baseline * 1.2);
-        optimistic = Math.round(baseline * 1.3);
-        conservative = Math.round(baseline * 1.1);
-      } else {
-        // Normal months
-        projected = baseline;
-        optimistic = Math.round(baseline * 1.05);
-        conservative = Math.round(baseline * 0.95);
+        conservative = Math.round(baseline * (1 + (spike * 0.8 - 1) * decay) * 0.85);
       }
-    } else {
-      // Steady state - consistent across months
-      projected = baseline;
-      optimistic = Math.round(baseline * 1.1);
-      conservative = Math.round(baseline * 0.9);
+      // Other months use seasonal baseline calculated above
     }
 
     projections.push({
       month,
-      baseline,
+      baseline: seasonalBaseline,
       projected,
       optimistic,
       conservative,
@@ -204,13 +199,15 @@ export function calculatePlayerValue(state: DashboardState): PlayerValueCalculat
 }
 
 export function calculateSocialGrowth(state: DashboardState): SocialGrowthForecast[] {
+  // Annual growth rates calculated from confirmed historical data (Mar '24 - Sep '25)
   const growthRates: Record<string, number> = {
-    instagram: 0.08,
-    tiktok: 0.15,
-    youtube: 0.05,
-    twitter: 0.03,
-    reddit: 0.10,
-    twitch: 0.06,
+    facebook: 0.01,   // Confirmed: 13.9M→14.1M = ~1% annual (mature platform)
+    instagram: 0.04,  // Confirmed: 4.7M→5.0M = ~4% annual
+    tiktok: 0.50,     // Confirmed: 0.4M→0.7M = ~50% annual (high growth)
+    youtube: 0.23,    // Confirmed: 2.0M→2.7M = ~23% annual
+    twitter: 0.00,    // Confirmed: flat at 0.3M
+    reddit: 0.10,     // Estimated
+    twitch: 0.06,     // Estimated
   };
 
   // Strategy multipliers - different strategies have different social impact

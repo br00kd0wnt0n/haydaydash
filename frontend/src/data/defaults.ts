@@ -27,8 +27,8 @@ export const strategies: Record<string, Strategy> = {
     },
     assumptions: {
       reactivationRatio: 0.70,
-      d30Retention: 0.28,
-      organicMultiplier: 1.2,
+      d30Retention: 0.125,         // Confirmed reactivated D30: 12.5%
+      organicMultiplier: 6.0,      // Confirmed: 5-12x range, conservative for eCRM focus
       campaignSpike: 2.0,
     },
   },
@@ -48,8 +48,8 @@ export const strategies: Record<string, Strategy> = {
     },
     assumptions: {
       reactivationRatio: 0.50,
-      d30Retention: 0.20,
-      organicMultiplier: 1.3,
+      d30Retention: 0.118,         // Blended: (11.1% + 12.5%) / 2
+      organicMultiplier: 8.0,      // Confirmed: 5-12x range, midpoint
       campaignSpike: 2.5,
     },
   },
@@ -69,8 +69,8 @@ export const strategies: Record<string, Strategy> = {
     },
     assumptions: {
       reactivationRatio: 0.20,
-      d30Retention: 0.15,
-      organicMultiplier: 1.5,
+      d30Retention: 0.111,         // Confirmed new D30: 11.1%
+      organicMultiplier: 10.0,     // Confirmed: 5-12x range, higher for virality
       campaignSpike: 3.0,
     },
   },
@@ -90,9 +90,9 @@ export const strategies: Record<string, Strategy> = {
     },
     assumptions: {
       reactivationRatio: 0.45,
-      d30Retention: 0.22,
-      organicMultiplier: 1.6,
-      campaignSpike: 1.8, // Lower spike but sustained over time
+      d30Retention: 0.118,         // Blended retention
+      organicMultiplier: 12.0,     // Confirmed: 5-12x range, highest for creator content
+      campaignSpike: 1.8,
     },
   },
 };
@@ -115,16 +115,16 @@ export const defaultRegions: RegionalSplit = {
   row: 20,
 };
 
-// Industry benchmarks
+// Industry benchmarks (confirmed from Steph Dec '25)
 export const defaultBenchmarks: IndustryBenchmarks = {
-  d30RetentionNew: 0.15,
-  d30RetentionReactivated: 0.25,
-  d60RetentionDecay: 0.60,
-  d90RetentionDecay: 0.50,
+  d30RetentionNew: 0.111,        // Confirmed: 11.1%
+  d30RetentionReactivated: 0.125, // Confirmed: 12.5%
+  d60RetentionDecay: 0.667,      // Calculated: 7.4%/11.1% = 66.7%
+  d90RetentionDecay: 0.703,      // Calculated: 5.2%/7.4% = 70.3%
   eCRMReactivationRate: 0.03,
   pushNotificationCTR: 0.05,
   paidSocialCPI: 2.50,
-  organicMultiplier: 1.3,
+  organicMultiplier: 8.0,        // Confirmed: organic-to-paid ratio 5-12x, using midpoint
 };
 
 // Ralph methodology assumptions
@@ -134,25 +134,26 @@ export const defaultRalphAssumptions: RalphAssumptions = {
   socialAmplificationFactor: 1.4,
 };
 
-// Supercell data (confirmed)
+// Supercell data (confirmed from Steph Dec '25)
 export const supercellData: SupercellData = {
   lifetimeDownloads: 341_000_000,
-  monthlyInstalls: 1_500_000, // Mid-range of 1-2M
-  monthlyRevenue: 10_000_000,
-  dau: 1_500_000, // Estimated based on revenue/ARPDAU
-  mau: 10_000_000, // Estimated ~6-7x DAU ratio for casual games
-  arpdau: 0.35, // Mid-range of $0.30-0.40
+  monthlyInstalls: 1_500_000,
+  monthlyRevenue: 21_000_000,   // Calculated: DAU 7M × ARPDAU $0.10 × 30 days
+  dau: 7_000_000,               // Confirmed: 7.0M (Dec '25)
+  mau: 21_500_000,              // Confirmed: 21.5M (Dec '25)
+  arpdau: 0.10,                 // Confirmed: $0.10 (Dec '25)
   appStoreRanking: 15,
 };
 
-// Social channel follower data
+// Social channel follower data (confirmed Sep '25)
 export const socialChannelData: SocialChannelData = {
-  instagram: 5_000_000,
-  tiktok: 786_000,
-  youtube: 2_820_000,
-  twitter: 285_000,
-  reddit: 85_000,
-  twitch: 22_300,
+  facebook: 14_100_000,  // Confirmed: 14.1M
+  instagram: 5_000_000,  // Confirmed: 5.0M
+  tiktok: 700_000,       // Confirmed: 0.7M
+  youtube: 2_700_000,    // Confirmed: 2.7M
+  twitter: 300_000,      // Confirmed: 0.3M
+  reddit: 85_000,        // Estimated (no data provided)
+  twitch: 22_300,        // Estimated (no data provided)
 };
 
 // Default dashboard state

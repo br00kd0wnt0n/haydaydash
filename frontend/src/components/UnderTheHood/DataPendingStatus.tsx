@@ -4,98 +4,73 @@ import { supercellData, defaultBenchmarks } from '../../data/defaults';
 import { useFormatting } from '../../hooks/useFormatting';
 import { Tooltip } from '../shared/Tooltip';
 
-// Define which data points are pending client confirmation
+// Define data point confidence levels - updated with confirmed data from Steph
 const dataPointStatuses: DataPointStatus[] = [
-  // Awaiting from client (your email request)
+  // CONFIRMED from Steph (Dec '25)
   {
     key: 'dau',
     label: 'DAU',
-    value: '1.5M',
-    confidence: 'pending',
-    source: 'Requested from Stef',
-    tooltip: 'Daily Active Users - awaiting actual data from client',
+    value: '7.0M',
+    confidence: 'confirmed',
+    source: 'Steph (Dec \'25)',
+    tooltip: 'Daily Active Users - confirmed December 2025',
   },
   {
     key: 'mau',
     label: 'MAU',
-    value: '10M',
-    confidence: 'pending',
-    source: 'Requested from Stef',
-    tooltip: 'Monthly Active Users - awaiting actual data from client',
+    value: '21.5M',
+    confidence: 'confirmed',
+    source: 'Steph (Dec \'25)',
+    tooltip: 'Monthly Active Users - confirmed December 2025',
   },
   {
     key: 'arpdau',
     label: 'ARPDAU',
-    value: '€0.35',
-    confidence: 'pending',
-    source: 'Requested from Stef',
-    tooltip: 'Average Revenue Per DAU - critical for player value calculation',
+    value: '$0.10',
+    confidence: 'confirmed',
+    source: 'Steph (Dec \'25)',
+    tooltip: 'Average Revenue Per DAU - confirmed December 2025',
   },
   {
     key: 'd7Retention',
     label: 'D7 Retention',
-    value: 'Unknown',
-    confidence: 'pending',
-    source: 'Requested from Stef',
-    tooltip: 'Client mentioned "sharp D7 drop" - need actual figures',
+    value: '21.0% / 19.8%',
+    confidence: 'confirmed',
+    source: 'Steph (Dec \'25)',
+    tooltip: 'New: 21.0%, Reactivated: 19.8%',
   },
   {
     key: 'd30Retention',
-    label: 'D30/60/90 Retention Curves',
-    value: '15%/9%/4.5%',
-    confidence: 'pending',
-    source: 'Requested from Stef',
-    tooltip: 'Full retention curves for new and reactivated players',
-  },
-  {
-    key: 'reactivationRate',
-    label: 'Reactivation Success Rate',
-    value: '3%',
-    confidence: 'pending',
-    source: 'Requested from Stef',
-    tooltip: 'What % of dormant players return when targeted',
-  },
-  {
-    key: 'dormantPool',
-    label: 'Reachable Dormant Pool',
-    value: '~51M (15%)',
-    confidence: 'pending',
-    source: 'Requested from Stef',
-    tooltip: 'How many lapsed players are actually reachable',
-  },
-  {
-    key: 'historicalCampaign',
-    label: 'Historical Campaign Spikes',
-    value: '2.0-3.0x',
-    confidence: 'pending',
-    source: 'Requested from Stef',
-    tooltip: 'Past birthday/holiday tentpole performance',
-  },
-  {
-    key: 'channelCPI',
-    label: 'Channel CPI Benchmarks',
-    value: 'Industry avg',
-    confidence: 'pending',
-    source: 'Requested from Stef',
-    tooltip: 'Actual paid social / influencer costs for Hay Day',
+    label: 'D30/60/90 Retention',
+    value: '11.1% / 7.4% / 5.2%',
+    confidence: 'confirmed',
+    source: 'Steph (Dec \'25)',
+    tooltip: 'New player retention curves confirmed',
   },
   {
     key: 'organicMultiplier',
-    label: 'Organic Multiplier (Observed)',
-    value: '1.3x',
-    confidence: 'pending',
-    source: 'Requested from Stef',
-    tooltip: 'Actual paid-to-organic lift observed in past campaigns',
+    label: 'Organic Multiplier',
+    value: '5-12x',
+    confidence: 'confirmed',
+    source: 'Steph (Dec \'25)',
+    tooltip: 'Organic-to-paid ratio confirmed',
   },
   {
-    key: 'regionalPerf',
-    label: 'Regional Efficiency',
-    value: 'US/DE/RoW split',
-    confidence: 'pending',
-    source: 'Requested from Stef',
-    tooltip: 'US vs Germany vs RoW performance differences',
+    key: 'socialFollowers',
+    label: 'Social Follower Counts',
+    value: 'Sep \'25 data',
+    confidence: 'confirmed',
+    source: 'Steph (Sep \'25)',
+    tooltip: 'FB, IG, TikTok, YouTube, X all confirmed',
   },
-  // Already confirmed
+  {
+    key: 'seasonality',
+    label: 'Seasonality Patterns',
+    value: 'Holiday best, Summer worst',
+    confidence: 'confirmed',
+    source: 'Steph',
+    tooltip: 'Oct-Dec peak, Jun-Aug trough',
+  },
   {
     key: 'lifetimeDownloads',
     label: 'Lifetime Downloads',
@@ -112,6 +87,47 @@ const dataPointStatuses: DataPointStatus[] = [
     source: 'Client brief',
     tooltip: 'Approximate monthly install range',
   },
+  // Still pending from client
+  {
+    key: 'reactivationRate',
+    label: 'Reactivation Success Rate',
+    value: '3% (est)',
+    confidence: 'pending',
+    source: 'Awaiting from Steph',
+    tooltip: 'What % of dormant players return when targeted',
+  },
+  {
+    key: 'dormantPool',
+    label: 'Reachable Dormant Pool',
+    value: '~51M (est)',
+    confidence: 'pending',
+    source: 'Awaiting from Steph',
+    tooltip: 'How many lapsed players are actually reachable',
+  },
+  {
+    key: 'historicalCampaign',
+    label: 'Historical Campaign Spikes',
+    value: '2.0-3.0x (est)',
+    confidence: 'pending',
+    source: 'Awaiting from Steph',
+    tooltip: 'Past birthday/holiday tentpole performance',
+  },
+  {
+    key: 'channelCPI',
+    label: 'Channel CPI Benchmarks',
+    value: 'Industry avg',
+    confidence: 'pending',
+    source: 'Awaiting from Steph',
+    tooltip: 'Actual paid social / influencer costs for Hay Day',
+  },
+  {
+    key: 'regionalPerf',
+    label: 'Regional Efficiency',
+    value: 'US/DE/RoW',
+    confidence: 'pending',
+    source: 'Awaiting from Steph',
+    tooltip: 'US vs Germany vs RoW performance differences',
+  },
   // Estimated (Ralph methodology)
   {
     key: 'campaignSpike',
@@ -119,7 +135,7 @@ const dataPointStatuses: DataPointStatus[] = [
     value: '2.5x',
     confidence: 'estimated',
     source: 'Ralph methodology',
-    tooltip: 'Based on industry benchmarks - will refine with actual data',
+    tooltip: 'Based on industry benchmarks - awaiting historical data',
   },
   {
     key: 'socialAmplification',
@@ -186,20 +202,36 @@ export function DataPendingStatus() {
         </div>
       </div>
 
-      {/* Alert banner */}
-      <div className="bg-amber-50 border border-amber-300 rounded-lg p-4 mb-4">
-        <div className="flex items-start gap-3">
-          <span className="text-lg">⚠️</span>
-          <div>
-            <p className="text-sm font-medium text-amber-800">
-              {pendingCount} data points awaiting client confirmation
-            </p>
-            <p className="text-xs text-amber-700 mt-1">
-              Model projections will be refined once Steph responds to data request.
-            </p>
+      {/* Status banner */}
+      {pendingCount > 0 ? (
+        <div className="bg-amber-50 border border-amber-300 rounded-lg p-4 mb-4">
+          <div className="flex items-start gap-3">
+            <span className="text-lg">⚠️</span>
+            <div>
+              <p className="text-sm font-medium text-amber-800">
+                {pendingCount} data points still awaiting confirmation
+              </p>
+              <p className="text-xs text-amber-700 mt-1">
+                Core metrics confirmed. Remaining items will further refine projections.
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="bg-green-50 border border-green-300 rounded-lg p-4 mb-4">
+          <div className="flex items-start gap-3">
+            <span className="text-lg">✅</span>
+            <div>
+              <p className="text-sm font-medium text-green-800">
+                All critical data points confirmed
+              </p>
+              <p className="text-xs text-green-700 mt-1">
+                Model projections are based on actual Hay Day performance data.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Pending data points */}
       <div className="space-y-4">

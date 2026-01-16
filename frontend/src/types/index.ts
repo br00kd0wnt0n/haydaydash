@@ -59,6 +59,7 @@ export interface RalphAssumptions {
 
 // Social channel data
 export interface SocialChannelData {
+  facebook: number;
   instagram: number;
   tiktok: number;
   youtube: number;
