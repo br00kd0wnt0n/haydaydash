@@ -32,7 +32,9 @@ function App() {
   const { scenarios, comparison } = useScenarioComparison(
     state.budget,
     state.benchmarks,
-    state.ralphAssumptions
+    state.ralphAssumptions,
+    state.channels,  // Pass current channel allocations for dynamic recommendation
+    state.timing     // Pass current timing
   );
   const { assessment, isLoading: aiLoading, error: aiError, refresh: aiRefresh } = useAIAssessment(state);
 
@@ -158,6 +160,7 @@ function App() {
               onChannelsChange={handleChannelsChange}
               onRegionsChange={handleRegionsChange}
               onTimingChange={handleTimingChange}
+              recommendedStrategy={comparison.recommendedStrategy}
             />
           </div>
 

@@ -12,6 +12,7 @@ interface ScenarioComparisonProps {
     highestVolume: StrategyType;
     roiDifference: number;
     volumeDifference: number;
+    recommendedStrategy: StrategyType;
   };
   budget: number;
   onApplyStrategy: (strategy: StrategyType) => void;
@@ -103,21 +104,24 @@ export function ScenarioComparison({
           </div>
 
           {/* Scenario Cards */}
-          <div className="bg-hay-cream p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-hay-cream p-6 pt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
             <ScenarioCard
               scenario={welcomeBack}
               color={scenarioColors.welcome_back}
               onApply={() => onApplyStrategy('welcome_back')}
+              isRecommended={comparison.recommendedStrategy === 'welcome_back'}
             />
             <ScenarioCard
               scenario={balanced}
               color={scenarioColors.balanced}
               onApply={() => onApplyStrategy('balanced')}
+              isRecommended={comparison.recommendedStrategy === 'balanced'}
             />
             <ScenarioCard
               scenario={newNeighbors}
               color={scenarioColors.new_neighbors}
               onApply={() => onApplyStrategy('new_neighbors')}
+              isRecommended={comparison.recommendedStrategy === 'new_neighbors'}
             />
           </div>
 

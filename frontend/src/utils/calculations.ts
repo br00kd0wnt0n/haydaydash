@@ -260,16 +260,19 @@ export function calculateScenario(
   strategyType: StrategyType,
   budget: number,
   benchmarks: DashboardState['benchmarks'],
-  ralphAssumptions: DashboardState['ralphAssumptions']
+  ralphAssumptions: DashboardState['ralphAssumptions'],
+  channelOverrides?: DashboardState['channels'],
+  timingOverride?: DashboardState['timing']
 ): ScenarioResult {
   const strategy = strategies[strategyType];
 
   const state: DashboardState = {
     strategy: strategyType,
     budget,
-    channels: strategy.channelDefaults,
+    // Use channel overrides if provided, otherwise use strategy defaults
+    channels: channelOverrides || strategy.channelDefaults,
     regions: { us: 50, germany: 30, row: 20 },
-    timing: 'june_birthday',
+    timing: timingOverride || 'june_birthday',
     benchmarks,
     ralphAssumptions,
   };

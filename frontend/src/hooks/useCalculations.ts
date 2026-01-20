@@ -40,15 +40,17 @@ export function useCalculations(state: DashboardState) {
 export function useScenarioComparison(
   budget: number,
   benchmarks: DashboardState['benchmarks'],
-  ralphAssumptions: DashboardState['ralphAssumptions']
+  ralphAssumptions: DashboardState['ralphAssumptions'],
+  channelOverrides?: DashboardState['channels'],
+  timingOverride?: DashboardState['timing']
 ) {
   const scenarios = useMemo<ScenarioResult[]>(() => {
     return [
-      calculateScenario('welcome_back', budget, benchmarks, ralphAssumptions),
-      calculateScenario('balanced', budget, benchmarks, ralphAssumptions),
-      calculateScenario('new_neighbors', budget, benchmarks, ralphAssumptions),
+      calculateScenario('welcome_back', budget, benchmarks, ralphAssumptions, channelOverrides, timingOverride),
+      calculateScenario('balanced', budget, benchmarks, ralphAssumptions, channelOverrides, timingOverride),
+      calculateScenario('new_neighbors', budget, benchmarks, ralphAssumptions, channelOverrides, timingOverride),
     ];
-  }, [budget, benchmarks, ralphAssumptions]);
+  }, [budget, benchmarks, ralphAssumptions, channelOverrides, timingOverride]);
 
   const comparison = useMemo(() => {
     const [welcomeBack, balanced, newNeighbors] = scenarios;
@@ -64,6 +66,8 @@ export function useScenarioComparison(
       highestVolume: highestVolume.strategy,
       roiDifference: roiDiff,
       volumeDifference: volumeDiff,
+      // Add recommended strategy (highest ROI)
+      recommendedStrategy: highestROI.strategy,
     };
   }, [scenarios]);
 

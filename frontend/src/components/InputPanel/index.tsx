@@ -14,6 +14,7 @@ interface InputPanelProps {
   onChannelsChange: (channels: ChannelAllocationType) => void;
   onRegionsChange: (regions: RegionalSplitType) => void;
   onTimingChange: (timing: CampaignTiming) => void;
+  recommendedStrategy?: StrategyType;
 }
 
 export function InputPanel({
@@ -23,6 +24,7 @@ export function InputPanel({
   onChannelsChange,
   onRegionsChange,
   onTimingChange,
+  recommendedStrategy,
 }: InputPanelProps) {
   const handleStrategyChange = (strategy: StrategyType) => {
     onStrategyChange(strategy);
@@ -33,7 +35,7 @@ export function InputPanel({
 
   return (
     <div className="h-full overflow-y-auto px-6 py-6">
-      <StrategySelector value={state.strategy} onChange={handleStrategyChange} />
+      <StrategySelector value={state.strategy} onChange={handleStrategyChange} recommendedStrategy={recommendedStrategy} />
       <BudgetSlider value={state.budget} onChange={onBudgetChange} />
       <ChannelAllocation value={state.channels} onChange={onChannelsChange} />
       <RegionalSplit value={state.regions} onChange={onRegionsChange} />

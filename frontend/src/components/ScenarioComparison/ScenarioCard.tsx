@@ -12,11 +12,13 @@ import {
 import { ScenarioResult, StrategyType } from '../../types';
 import { strategies } from '../../data/defaults';
 import { useFormatting } from '../../hooks/useFormatting';
+import { Star } from 'lucide-react';
 
 interface ScenarioCardProps {
   scenario: ScenarioResult;
   color: string;
   onApply: () => void;
+  isRecommended?: boolean;
 }
 
 const StarRating = ({ rating }: { rating: number }) => (
@@ -34,7 +36,7 @@ const StarRating = ({ rating }: { rating: number }) => (
   </div>
 );
 
-export function ScenarioCard({ scenario, color, onApply }: ScenarioCardProps) {
+export function ScenarioCard({ scenario, color, onApply, isRecommended }: ScenarioCardProps) {
   const { formatCurrency, formatNumber } = useFormatting();
   const strategy = strategies[scenario.strategy];
 
@@ -46,7 +48,14 @@ export function ScenarioCard({ scenario, color, onApply }: ScenarioCardProps) {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden">
+    <div className={`bg-white rounded-xl shadow-md overflow-hidden relative ${isRecommended ? 'ring-2 ring-hay-gold ring-offset-2' : ''}`}>
+      {/* Recommended Badge */}
+      {isRecommended && (
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1 px-3 py-1 bg-hay-gold text-white text-xs font-semibold rounded-full shadow-lg">
+          <Star className="w-3 h-3 fill-white" />
+          <span>Best ROI at Current Settings</span>
+        </div>
+      )}
       {/* Header */}
       <div
         className="px-4 py-3 text-white"
