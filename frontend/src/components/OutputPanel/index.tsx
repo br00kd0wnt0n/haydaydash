@@ -36,7 +36,12 @@ export function OutputPanel({
   return (
     <div className="h-full overflow-y-auto px-6 py-6 space-y-6">
       {/* Campaign Projection Chart */}
-      <ProjectionChart data={monthlyProjections} timing={state.timing} onCompareClick={onCompareClick} />
+      <ProjectionChart
+        data={monthlyProjections}
+        timing={state.timing}
+        retentionRate={playerValue.retentionRate}
+        onCompareClick={onCompareClick}
+      />
 
       {/* Two column layout for smaller cards */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

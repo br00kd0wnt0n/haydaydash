@@ -24,7 +24,7 @@ interface ProjectionChartProps {
 
 type ChartView = 'installs' | 'cumulative';
 
-export function ProjectionChart({ data, timing, retentionRate = 0.18, onCompareClick }: ProjectionChartProps) {
+export function ProjectionChart({ data, timing, retentionRate = 0.10, onCompareClick }: ProjectionChartProps) {
   const [chartView, setChartView] = useState<ChartView>('installs');
 
   const formatValue = (value: number) => {
@@ -34,7 +34,9 @@ export function ProjectionChart({ data, timing, retentionRate = 0.18, onCompareC
     return `${(value / 1_000).toFixed(0)}K`;
   };
 
-  // Calculate cumulative retained players
+  // Calculate cumulative retained players over time
+  // Model: Each month adds (new installs × D90 retention rate) to the retained pool
+  // Simple sum without additional decay since retention rate already accounts for D90 churn
   const cumulativeData = useMemo(() => {
     let cumulativeBaseline = 0;
     let cumulativeProjected = 0;
@@ -42,11 +44,11 @@ export function ProjectionChart({ data, timing, retentionRate = 0.18, onCompareC
     let cumulativeConservative = 0;
 
     return data.map((month) => {
-      // Add new installs, apply retention decay to existing
-      cumulativeBaseline = (cumulativeBaseline * 0.95) + (month.baseline * retentionRate);
-      cumulativeProjected = (cumulativeProjected * 0.95) + (month.projected * retentionRate);
-      cumulativeOptimistic = (cumulativeOptimistic * 0.95) + (month.optimistic * retentionRate);
-      cumulativeConservative = (cumulativeConservative * 0.95) + (month.conservative * retentionRate);
+      // Add retained players from this month's installs
+      cumulativeBaseline += month.baseline * retentionRate;
+      cumulativeProjected += month.projected * retentionRate;
+      cumulativeOptimistic += month.optimistic * retentionRate;
+      cumulativeConservative += month.conservative * retentionRate;
 
       return {
         month: month.month,
@@ -62,10 +64,10 @@ export function ProjectionChart({ data, timing, retentionRate = 0.18, onCompareC
 
   // Fixed Y-axis domain so comparisons between strategies are visually clear
   // Installs: 0-6M covers all scenarios (baseline 1.5M, max spike 3x = 4.5M, optimistic ~5.4M)
-  // Cumulative: 0-4M covers retained player accumulation across all strategies
+  // Cumulative: 0-2.5M covers retained player accumulation (12 months × ~1.5M × ~10% retention)
   const yAxisDomain: [number, number] = chartView === 'installs'
     ? [0, 6_000_000]
-    : [0, 4_000_000];
+    : [0, 2_500_000];
 
   const juneIndex = data.findIndex(d => d.month === 'Jun');
   const juneData = data[juneIndex];
