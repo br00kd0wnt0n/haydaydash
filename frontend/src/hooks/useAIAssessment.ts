@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { DashboardState, AIAssessment } from '../types';
+import { calculatePlayerValue } from '../utils/calculations';
 
 const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
@@ -65,19 +66,40 @@ export function useAIAssessment(state: DashboardState) {
 function generateFallbackAssessment(state: DashboardState): AIAssessment {
   const { strategy, budget, channels, timing } = state;
 
+  // Calculate actual ROI from the model
+  const playerValue = calculatePlayerValue(state);
+  const actualROI = playerValue.campaignROI;
+
   const recommendations: string[] = [];
   const suggestedChanges: Partial<DashboardState> = {};
 
-  // Generate contextual recommendations
-  if (strategy === 'welcome_back' && channels.eCRM < 25) {
+  // Generate contextual recommendations based on strategy
+  if (strategy === 'welcome_back') {
+    if (channels.eCRM < 25) {
+      recommendations.push(
+        `Your current eCRM allocation of ${channels.eCRM}% could be increased to 25-30%. Lapsed Hay Day players convert at approximately 3x the rate of cold acquisition, and your dormant player pool (estimated 50M+ from lifetime downloads) represents significant untapped value.`
+      );
+    }
+    // Note: Welcome Back has lower ROI than New Neighbors due to lower organic multiplier
     recommendations.push(
-      `Your current eCRM allocation of ${channels.eCRM}% could be increased to 25-30%. Lapsed Hay Day players convert at approximately 3x the rate of cold acquisition, and your dormant player pool (estimated 50M+ from lifetime downloads) represents significant untapped value.`
+      `Note: While Welcome Back prioritizes player quality and retention (12.5% D30 for reactivated vs 11.1% for new), the New Neighbors strategy may produce higher ROI due to stronger organic multiplier effects on paid social. Consider your primary objective: efficiency vs. volume.`
     );
   }
 
-  if (strategy === 'new_neighbors' && channels.paidSocial < 40) {
+  if (strategy === 'new_neighbors') {
+    if (channels.paidSocial < 40) {
+      recommendations.push(
+        `For a new player acquisition focus, consider increasing paid social allocation to 40-45%. This maximizes reach to players who haven't discovered Hay Day yet.`
+      );
+    }
     recommendations.push(
-      `For a new player acquisition focus, consider increasing paid social allocation to 40-45%. This maximizes reach to players who haven't discovered Hay Day yet.`
+      `New Neighbors benefits from a higher organic multiplier (10x vs 6x for Welcome Back), generating significant viral lift on paid campaigns. This drives both higher volume and higher ROI, though new player retention is slightly lower (11.1% D30).`
+    );
+  }
+
+  if (strategy === 'balanced') {
+    recommendations.push(
+      `Balanced Harvest hedges risk across acquisition and reactivation. This approach offers flexibility to shift resources based on early campaign performance, but may underperform a more focused strategy if one audience segment dramatically outperforms.`
     );
   }
 
@@ -93,12 +115,6 @@ function generateFallbackAssessment(state: DashboardState): AIAssessment {
     );
   }
 
-  if (recommendations.length === 0) {
-    recommendations.push(
-      `Your current configuration is well-balanced for a ${strategy.replace('_', ' ')} approach. Consider A/B testing channel allocations to optimize further.`
-    );
-  }
-
   const summaryParts = [
     `Based on your ${formatBudget(budget)} budget`,
     `with ${strategy.replace('_', ' ')} focus`,
@@ -109,7 +125,7 @@ function generateFallbackAssessment(state: DashboardState): AIAssessment {
   }
 
   return {
-    summary: `${summaryParts.join(' ')}, this configuration projects a ${(strategy === 'welcome_back' ? '3.2x' : strategy === 'balanced' ? '3.1x' : '2.8x')} ROI. ${recommendations[0]}`,
+    summary: `${summaryParts.join(' ')}, this configuration projects a ${actualROI.toFixed(1)}x ROI. ${recommendations[0]}`,
     recommendations,
     suggestedChanges,
   };

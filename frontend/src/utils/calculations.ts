@@ -14,7 +14,7 @@ const channelCPIs: Record<string, number> = {
   paidSocial: 2.50,
   influencer: 4.00, // Higher CPI but better quality
   eCRM: 0.50, // Very efficient for reactivation
-  organic: 0.00, // No direct cost
+  organic: 1.50, // Baseline CPI for owned content efforts (community management, content creation)
   pr: 3.00, // Estimated cost per install from PR
   store: 1.00, // Internal cost estimate
   giveBack: 2.00, // Partnership cost per install
@@ -48,11 +48,19 @@ export function calculateChannelResults(state: DashboardState): ChannelResult[] 
     // Calculate installs
     let installs = 0;
     if (channel === 'organic') {
-      // Organic doesn't have direct spend-to-install
-      installs = Math.round(
-        state.budget * (state.channels.paidSocial / 100) / channelCPIs.paidSocial *
-        (strategyAssumptions.organicMultiplier - 1) * (allocation / 10)
-      );
+      // Organic has two components:
+      // 1. Baseline: Independent installs from owned social content (community, content creation)
+      // 2. Viral lift: Additional installs from word-of-mouth driven by paid campaigns
+
+      const baselineOrganicCPI = channelCPIs.organic; // €1.50
+      const baselineInstalls = spend / baselineOrganicCPI;
+
+      // Viral lift from paid social (if any paid social spend exists)
+      const paidSocialSpend = state.budget * (state.channels.paidSocial / 100);
+      const paidSocialInstalls = paidSocialSpend / channelCPIs.paidSocial;
+      const viralLift = paidSocialInstalls * (strategyAssumptions.organicMultiplier - 1) * (allocation / 10);
+
+      installs = Math.round(baselineInstalls + viralLift);
     } else if (channel === 'eCRM') {
       // eCRM effectiveness based on dormant pool
       const dormantPool = supercellData.lifetimeDownloads * 0.15; // Assume 15% are reachable

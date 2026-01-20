@@ -37,11 +37,48 @@ export function ScenarioComparison({
   const balanced = scenarios.find(s => s.strategy === 'balanced')!;
   const newNeighbors = scenarios.find(s => s.strategy === 'new_neighbors')!;
 
-  // Generate comparison summary
+  // Generate comparison summary based on actual calculation results
   const highestROIName = strategies[comparison.highestROI].name;
   const highestVolumeName = strategies[comparison.highestVolume].name;
 
-  const summaryText = `${highestROIName} yields ${Math.abs(comparison.roiDifference).toFixed(0)}% higher ROI but ${Math.abs(comparison.volumeDifference).toFixed(0)}% fewer total installs than ${highestVolumeName}. Balanced Harvest sits between, optimizing for predictable year-round growth. Given Hay Day's mature player base and 341M lifetime downloads, ${highestROIName} aligns best with the brief's emphasis on "re-engaging lapsed players first, while attracting new ones naturally."`;
+  let summaryText: string;
+
+  if (comparison.highestROI === comparison.highestVolume) {
+    // One scenario dominates both metrics
+    const winnerKey = comparison.highestROI;
+    const winner = scenarios.find(s => s.strategy === winnerKey)!;
+    const runnerUp = scenarios
+      .filter(s => s.strategy !== winnerKey)
+      .sort((a, b) => b.campaignROI - a.campaignROI)[0];
+
+    const roiAdvantage = ((winner.campaignROI / runnerUp.campaignROI) - 1) * 100;
+    const volumeAdvantage = ((winner.totalIncrementalInstalls / runnerUp.totalIncrementalInstalls) - 1) * 100;
+
+    if (winnerKey === 'new_neighbors') {
+      summaryText = `${highestROIName} leads on both ROI (${roiAdvantage.toFixed(0)}% higher) and volume (${volumeAdvantage.toFixed(0)}% more installs) than ${strategies[runnerUp.strategy].name}. This is driven by the higher organic multiplier on paid social campaigns, which generates significant viral/word-of-mouth lift. The trade-off: new players have slightly lower retention (11.1% D30) than reactivated players (12.5% D30), but the volume advantage more than compensates.`;
+    } else if (winnerKey === 'welcome_back') {
+      summaryText = `${highestROIName} leads on both ROI (${roiAdvantage.toFixed(0)}% higher) and volume (${volumeAdvantage.toFixed(0)}% more installs) than ${strategies[runnerUp.strategy].name}. This leverages the 50M+ dormant player pool from 341M lifetime downloads—players who already love Hay Day and convert at lower cost via eCRM. The birthday "welcome home" message resonates strongly with lapsed players.`;
+    } else {
+      summaryText = `${highestROIName} leads on both ROI (${roiAdvantage.toFixed(0)}% higher) and volume (${volumeAdvantage.toFixed(0)}% more installs) than ${strategies[runnerUp.strategy].name}. This balanced approach hedges risk across acquisition and reactivation, providing flexibility to shift resources based on early campaign performance.`;
+    }
+  } else {
+    // Different scenarios win different metrics - show trade-off
+    const roiWinner = scenarios.find(s => s.strategy === comparison.highestROI)!;
+    const volumeWinner = scenarios.find(s => s.strategy === comparison.highestVolume)!;
+
+    const roiDiff = ((roiWinner.campaignROI / volumeWinner.campaignROI) - 1) * 100;
+    const volumeDiff = ((volumeWinner.totalIncrementalInstalls / roiWinner.totalIncrementalInstalls) - 1) * 100;
+
+    summaryText = `${highestROIName} yields ${roiDiff.toFixed(0)}% higher ROI, while ${highestVolumeName} delivers ${volumeDiff.toFixed(0)}% more total installs. `;
+
+    if (comparison.highestROI === 'welcome_back') {
+      summaryText += `Given Hay Day's mature player base and 341M lifetime downloads, ${highestROIName} prioritizes efficiency by re-engaging lapsed players at lower cost. However, ${highestVolumeName} may be preferred if maximizing reach and brand awareness is the primary goal.`;
+    } else if (comparison.highestROI === 'new_neighbors') {
+      summaryText += `${highestROIName}'s higher organic multiplier on paid campaigns generates strong viral lift, making new player acquisition more efficient than expected. Consider the trade-off: new players retain slightly worse (11.1% D30) than reactivated players (12.5% D30).`;
+    } else {
+      summaryText += `Balanced Harvest offers the flexibility to shift resources based on early performance, hedging risk across both acquisition and reactivation.`;
+    }
+  }
 
   return (
     <div className="fixed inset-0 bg-black/50 z-50 overflow-y-auto">
