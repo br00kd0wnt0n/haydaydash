@@ -104,7 +104,7 @@ export function ScenarioComparison({
           </div>
 
           {/* Scenario Cards */}
-          <div className="bg-hay-cream p-6 pt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-hay-cream p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
             <ScenarioCard
               scenario={welcomeBack}
               color={scenarioColors.welcome_back}

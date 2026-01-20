@@ -71,8 +71,9 @@ export function calculateChannelResults(state: DashboardState): ChannelResult[] 
       installs = Math.round(spend / adjustedCPI);
     }
 
-    // Apply organic multiplier for paid channels
-    if (channel === 'paidSocial' || channel === 'influencer') {
+    // Apply organic multiplier for paid social only
+    // (Influencer has its own quality but doesn't get the same viral lift)
+    if (channel === 'paidSocial') {
       installs = Math.round(installs * strategyAssumptions.organicMultiplier);
     }
 

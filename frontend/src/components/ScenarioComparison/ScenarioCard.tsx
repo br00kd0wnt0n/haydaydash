@@ -48,14 +48,7 @@ export function ScenarioCard({ scenario, color, onApply, isRecommended }: Scenar
   };
 
   return (
-    <div className={`bg-white rounded-xl shadow-md overflow-hidden relative ${isRecommended ? 'ring-2 ring-hay-gold ring-offset-2' : ''}`}>
-      {/* Recommended Badge */}
-      {isRecommended && (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1 px-3 py-1 bg-hay-gold text-white text-xs font-semibold rounded-full shadow-lg">
-          <Star className="w-3 h-3 fill-white" />
-          <span>Best ROI at Current Settings</span>
-        </div>
-      )}
+    <div className={`bg-white rounded-xl shadow-md overflow-hidden relative ${isRecommended ? 'ring-2 ring-hay-gold' : ''}`}>
       {/* Header */}
       <div
         className="px-4 py-3 text-white"
@@ -63,8 +56,13 @@ export function ScenarioCard({ scenario, color, onApply, isRecommended }: Scenar
       >
         <div className="flex items-center gap-2">
           <span className="text-xl">{strategy.emoji}</span>
-          <div>
-            <h3 className="font-semibold font-display">{strategy.name}</h3>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <h3 className="font-semibold font-display">{strategy.name}</h3>
+              {isRecommended && (
+                <Star className="w-4 h-4 fill-white text-white" />
+              )}
+            </div>
             <p className="text-xs opacity-90">{strategy.description}</p>
           </div>
         </div>
