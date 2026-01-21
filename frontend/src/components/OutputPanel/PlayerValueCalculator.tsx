@@ -16,43 +16,45 @@ export function PlayerValueCalculator({ data }: PlayerValueCalculatorProps) {
   return (
     <Card title="Player Value Calculator" subtitle="ROI breakdown">
       <div className="space-y-4">
-        {/* Incremental Installs */}
+        {/* Total Installs - Big headline number */}
         <div className="bg-hay-cream rounded-lg p-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-hay-brown">Incremental Installs</span>
-              <Tooltip content="Total new installs above baseline driven by campaign" />
+              <span className="text-sm font-semibold text-hay-brown uppercase tracking-wide">Total Installs</span>
+              <Tooltip content="Total installs driven by campaign" />
             </div>
-            <span className="text-xl font-bold text-hay-gold font-display">
+            <span className="text-2xl font-bold text-hay-gold font-display">
               {formatNumber(data.incrementalInstalls)}
             </span>
           </div>
-          <div className="mt-2 grid grid-cols-2 gap-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-hay-brown-light">New Players</span>
-              <span className="text-hay-brown">{newPlayerPercent.toFixed(0)}%</span>
+          <div className="flex items-center gap-4 text-sm">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-hay-green"></span>
+              <span className="text-hay-brown-light">New</span>
+              <span className="text-hay-brown font-medium">{newPlayerPercent.toFixed(0)}%</span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-hay-gold"></span>
               <span className="text-hay-brown-light">Reactivated</span>
-              <span className="text-hay-brown">{reactivatedPercent.toFixed(0)}%</span>
+              <span className="text-hay-brown font-medium">{reactivatedPercent.toFixed(0)}%</span>
             </div>
           </div>
         </div>
 
         {/* Retained at D90 */}
         <div className="bg-hay-cream rounded-lg p-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-hay-brown">Retained at D90</span>
+              <span className="text-sm font-semibold text-hay-brown uppercase tracking-wide">Retained at D90</span>
               <Tooltip content="Players still active 90 days after install" />
             </div>
-            <span className="text-xl font-bold text-hay-green font-display">
+            <span className="text-2xl font-bold text-hay-green font-display">
               {formatNumber(data.retainedAtD90)}
             </span>
           </div>
-          <div className="mt-2 flex justify-between text-sm">
-            <span className="text-hay-brown-light">Retention Rate</span>
-            <span className="text-hay-brown">{formatPercent(data.retentionRate)}</span>
+          <div className="text-sm">
+            <span className="text-hay-brown-light">Retention Rate: </span>
+            <span className="text-hay-brown font-medium">{formatPercent(data.retentionRate)}</span>
           </div>
         </div>
 
